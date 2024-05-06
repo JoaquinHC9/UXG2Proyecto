@@ -5,7 +5,7 @@ import logoP from '../images/profesor.png';
 import logo from '../images/logo.png';
 import '../styles/Portal.css';
 
-export default function Login() {
+export default function Portal() {
   return (
     <body>
       <header>
@@ -16,13 +16,17 @@ export default function Login() {
           <div className='section-container bg-estudiante'>
             <div className="logo-container bg-naranja">
                 <img src={logoE} />
-                <button>Estudiante</button>
+                <Link to="/LoginEstudiante" className="Link">
+                <button className="boton-login-prof">Iniciar Sesión</button>
+                </Link>
             </div>
             </div>
             <div className='section-container bg-profesor'>
             <div className="logo-container bg-azul">
                 <img src={logoP} />
-                <button>Profesor</button>
+                <Link to="/LoginEstudiante" className="Link">
+                    <button className="boton-login-est">Iniciar Sesión</button>
+                </Link>
             </div>
             </div>
         </main>
