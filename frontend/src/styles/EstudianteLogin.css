@@ -31,8 +31,8 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #333; /* Cambia el color de fondo a oscuro */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Añade una sombra más oscura */
+    background-color: #333; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
     text-align: center;
     padding: 20px;    
     flex: 1;
@@ -67,7 +67,7 @@ main {
     color: #fff; 
 }
 
-.login-form button {
+.button-login {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -75,11 +75,28 @@ main {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
 }
 
-.login-form button:hover {
+.button-login:hover {
     background-color: #0056b3;
 }
+.button-register {
+    width: 100%;
+    padding: 10px;
+    background-color: #747b82;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.button-register:hover {
+    background-color: #4a4f53;
+}
 .Link {
-    text-decoration: none;
+    text-decoration: none;    
 }

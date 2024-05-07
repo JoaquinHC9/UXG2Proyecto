@@ -24,7 +24,7 @@ export default function Portal() {
             <div className='section-container bg-profesor'>
             <div className="logo-container bg-azul">
                 <img src={logoP} />
-                <Link to="/LoginEstudiante" className="Link">
+                <Link to="/LoginProfesor" className="Link">
                     <button className="boton-login-est">Iniciar Sesión</button>
                 </Link>
             </div>

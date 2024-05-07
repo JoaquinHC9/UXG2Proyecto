@@ -9,7 +9,7 @@ export default function Sidebar({ isSidebarExpanded, toggleSidebar }) {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const isLoginRoute = location.pathname === '/' || location.pathname === '/LoginProfesor' || location.pathname === '/LoginEstudiante';
+  const isLoginRoute = location.pathname === '/' || location.pathname === '/LoginProfesor' || location.pathname === '/LoginEstudiante'|| location.pathname === '/Registro';
 
   if (isLoginRoute) {
     return null;

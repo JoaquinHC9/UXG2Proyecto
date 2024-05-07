@@ -2,7 +2,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 export const SidebarDataEst = [
   {
     title: 'Perfil',
@@ -23,5 +23,10 @@ export const SidebarDataEst = [
     title: 'Cursos',
     icon: <HomeWorkIcon />,
     link: '/Cursos',
+  },
+  {
+    title: 'Calendario',
+    icon: <CalendarMonthIcon />,
+    link: '/Calendario',
   }
 ];

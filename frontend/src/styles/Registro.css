@@ -1,0 +1,131 @@
+body {
+    width: 100%; 
+    height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+main {        
+    height: 100%;
+}
+
+.section-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.bg-logo {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('../images/logo-white.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex: 1;
+}
+
+.section-register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    padding: 20px;    
+    flex: 1;
+    height: calc(100% - 40px);  
+    flex-direction: column;   
+}
+
+.register-form {
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+}
+
+
+.register-form h1, .register-form h2, .register-form h3, .register-form p {
+    margin-bottom: 20px;
+    color: #fff;     
+}
+
+.register-form p {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.register-form input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #555; 
+    border-radius: 5px;
+    background-color: #fff; 
+    color: #333;
+}
+
+.register-form select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+}
+
+.register-form select::before {
+    content: "Seleccionar";    
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.register-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #fda233;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-form button:hover {
+    background-color: #b35a00;
+}
+
+.Link {
+    text-decoration: none;
+    color: #fff;    
+}
+
+.register-form label strong {
+    color: #fff; 
+    display: inline-block; 
+    width: 150px;
+    margin-right: 10px; 
+}
+
+.date-picker-container {
+    display: flex;
+    align-items: center;
+}
+
+.date-picker-container label {
+    color: #fff;
+    margin-right: 10px;
+    width: 150px;
+}
+
+.date-picker-container .react-datepicker-wrapper {
+    width: 320px;
+}

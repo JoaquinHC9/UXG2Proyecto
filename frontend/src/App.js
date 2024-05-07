@@ -3,7 +3,10 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Portal from "./pages/Portal.js";
 import LoginEst from "./pages/LoginEstudiante.js";
+import LoginProf from "./pages/LoginProfesor.js";
 import MainEst from "./pages/MainEstudiante.js";
+import MainProf from "./pages/MainProfesor.js";
+import Registro from "./pages/Registro.js";
 import { Helmet } from "react-helmet";
 import React, { useState } from 'react';
 
@@ -20,11 +23,14 @@ function App() {
         <Helmet>
           <title>SmartClass</title>
         </Helmet>
-        <Sidebar isSidebarExpanded={isSidebarExpanded} toggleSidebar={toggleSidebar} /> {/* Aquí pasamos isSidebarExpanded y toggleSidebar como props */}
+        <Sidebar isSidebarExpanded={isSidebarExpanded} toggleSidebar={toggleSidebar} /> 
         <Routes>
-          <Route path="/" element={<Portal />} />          
+          <Route path="/" element={<Portal />} />
+          <Route path="/Registro" element={<Registro />} /> 
           <Route path="/LoginEstudiante" element={<LoginEst />} /> 
-          <Route path="/MainEstudiante" element={<MainEst isSidebarExpanded={isSidebarExpanded} />} /> {/* Aquí también pasamos isSidebarExpanded como prop */}
+          <Route path="/LoginProfesor" element={<LoginProf />} /> 
+          <Route path="/MainEstudiante" element={<MainEst isSidebarExpanded={isSidebarExpanded} />} /> 
+          <Route path="/MainProfesor" element={<MainEst isSidebarExpanded={isSidebarExpanded} />} /> 
         </Routes>
       </Router>
     </div>

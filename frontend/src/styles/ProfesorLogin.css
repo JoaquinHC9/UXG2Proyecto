@@ -1,0 +1,102 @@
+body {
+    width: 100%; 
+    height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+main {        
+    height: 100%;
+}
+
+.section-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.bg-profesor {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('../images/bg-profesor.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex: 1;
+}
+
+
+.section-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+    text-align: center;
+    padding: 20px;    
+    flex: 1;
+    height: calc(100% - 40px);    
+}
+
+.login-form {
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #333; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+    text-align: center;    
+}
+
+.login-form h1, h2, p{
+    margin-bottom: 20px;
+    color: #fff;     
+}
+.login-form p{
+    text-align: left;
+}
+
+.login-form input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #555; 
+    border-radius: 5px;
+    background-color: #fff; 
+    color: #fff; 
+}
+
+.button-login {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.button-login:hover {
+    background-color: #0056b3;
+}
+.button-register {
+    width: 100%;
+    padding: 10px;
+    background-color: #747b82;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.button-register:hover {
+    background-color: #4a4f53;
+}
+.Link {
+    text-decoration: none;    
+}
