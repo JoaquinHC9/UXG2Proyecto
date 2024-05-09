@@ -1,41 +1,78 @@
+-- Tabla Estudiante
 CREATE TABLE estudiante (
-  codigo VARCHAR(255) PRIMARY KEY,
-  nombre VARCHAR(255),
-  apellido_pat VARCHAR(255),
-  apellido_mat VARCHAR(255),
-  telefono VARCHAR(255),
-  email VARCHAR(255) UNIQUE NOT NULL,
-  contra VARCHAR(255),
-  is_delegado BOOLEAN
+  dni VARCHAR(8) PRIMARY KEY,
+  nombre VARCHAR(25),
+  apellido_pat VARCHAR(25),
+  apellido_mat VARCHAR(25),
+  fecha_nacimiento DATE,
+  telefono VARCHAR(9),
+  email VARCHAR(50) UNIQUE NOT NULL,
+  contra VARCHAR(128)
 );
 
+-- Tabla Profesor
 CREATE TABLE profesor (
-  dni VARCHAR(255) PRIMARY KEY,
-  nombre VARCHAR(255),
-  apellido_pat VARCHAR(255),
-  apellido_mat VARCHAR(255),
-  telefono VARCHAR(255),
-  email VARCHAR(255),
-  contra VARCHAR(255)
+  dni VARCHAR(8) PRIMARY KEY,
+  nombre VARCHAR(25),
+  apellido_pat VARCHAR(25),
+  apellido_mat VARCHAR(25),
+  fecha_nacimiento DATE,
+  telefono VARCHAR(9),
+  email VARCHAR(50) UNIQUE NOT NULL,
+  contra VARCHAR(128)
 );
 
+-- Tabla Curso
 CREATE TABLE curso (
   id_curso SERIAL PRIMARY KEY,
-  nombre VARCHAR(255) NOT NULL,
+  nombre VARCHAR(50) NOT NULL,
   descripcion VARCHAR(255),
-  dni_profesor VARCHAR(255) REFERENCES profesor(dni)
+  seccion VARCHAR(1),
+  horario VARCHAR(50)
 );
 
+-- Tabla Estudiante_Curso
 CREATE TABLE estudiante_curso (
   id_est_curso SERIAL PRIMARY KEY,
-  estudiante_codigo VARCHAR(255) REFERENCES estudiante(codigo),
-  curso_id INT REFERENCES curso(id_curso),
-  nota_ec int,
-  nota_ep int,
-  nota_ef int,
-  promedio int,
-  PRIMARY KEY (id_est_curso)
+  estudiante_dni VARCHAR(8) REFERENCES estudiante(dni),
+  curso_id INT REFERENCES curso(id_curso)
 );
+
+-- Tabla Curso_Profesor
+CREATE TABLE curso_profesor (
+  id_curso_profesor SERIAL PRIMARY KEY,
+  profesor_dni VARCHAR(8) REFERENCES profesor(dni),
+  curso_id INT REFERENCES curso(id_curso)
+);
+
+-- Tabla Tipo_Evaluacion
+CREATE TABLE tipo_evaluacion (
+  id_tipo_eva SERIAL PRIMARY KEY,
+  nombre VARCHAR(25),
+  descripcion VARCHAR(50)
+);
+
+-- Tabla Evaluacion
+CREATE TABLE evaluacion (
+  id_evaluacion SERIAL PRIMARY KEY,
+  nombre VARCHAR(50),
+  descripcion VARCHAR(50),
+  fecha_limite DATE, -- Cambié a DATE en lugar de VARCHAR(50) para mayor claridad
+  puntuacion_max DECIMAL(10,2),
+  eva_tipo INT REFERENCES tipo_evaluacion(id_tipo_eva),
+  curso_id INT REFERENCES curso(id_curso) -- Añadí esta columna para la relación con Curso
+);
+
+-- Tabla Estudiante_Evaluacion
+CREATE TABLE estudiante_evaluacion (
+  id_est_eva SERIAL PRIMARY KEY,
+  est_dni VARCHAR(8) REFERENCES estudiante(dni),
+  eva_id INT REFERENCES evaluacion(id_evaluacion),
+  fecha_envio DATE,
+  calificacion DECIMAL(10,2),
+  comentario TEXT -- Quité la coma al final para evitar errores de sintaxis
+);
+
 
 INSERT INTO estudiante_curso (estudiante_codigo, curso_id)
 VALUES 
