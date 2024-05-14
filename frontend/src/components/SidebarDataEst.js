@@ -23,10 +23,5 @@ export const SidebarDataEst = [
     title: 'Cursos',
     icon: <HomeWorkIcon />,
     link: '/Cursos',
-  },
-  {
-    title: 'Calendario',
-    icon: <CalendarMonthIcon />,
-    link: '/Calendario',
   }
 ];

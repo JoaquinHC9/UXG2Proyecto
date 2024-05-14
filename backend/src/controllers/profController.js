@@ -44,4 +44,29 @@ module.exports.profController = {
       res.json(result.rows);
     });
   },
+  createProfesor: (req, res) => {
+    const {
+      dni,
+      nombre,
+      apellido_pat,
+      apellido_mat,
+      fecha_nacimiento,
+      telefono,
+      email,
+      contra,      
+    } = req.body;
+
+    db.query(
+      'INSERT INTO profesor (dni, nombre, apellido_pat, apellido_mat, fecha_nacimiento, telefono, email, contra) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+      [dni, nombre, apellido_pat, apellido_mat, fecha_nacimiento, telefono, email, contra],
+      (err) => {
+        if (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Error en el controlador' });
+        } else {
+          res.json({ msg: 'Profesor registrado correctamente' });
+        }
+      }
+    );
+  },
 };

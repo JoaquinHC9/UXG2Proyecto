@@ -4,7 +4,8 @@
 
 .App-logo {
   height: 40vmin;
-  pointer-events: none;
+  pointer-events: none;  
+  background-image: url('../images/logo.png'); 
 }
 
 @media (prefers-reduced-motion: no-preference) {

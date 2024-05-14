@@ -16,15 +16,14 @@ main {
     align-items: center;
 }
 
-
-
-.bg-estudiante {
+.section-container {
     background-image: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('../images/bg-estudiante.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     flex: 1;
-}
+  }
+  
 
 
 .section-login {
@@ -49,11 +48,13 @@ main {
     text-align: center;    
 }
 
-.login-form h1, h2, p{
+.login-form h1,
+.login-form h2,
+.login-form p {
     margin-bottom: 20px;
     color: #fff;     
 }
-.login-form p{
+.login-estudiante-container .login-form p{
     text-align: left;
 }
 
@@ -64,7 +65,7 @@ main {
     border: 1px solid #555; 
     border-radius: 5px;
     background-color: #fff; 
-    color: #fff; 
+    color: black; 
 }
 
 .button-login {
@@ -99,4 +100,7 @@ main {
 }
 .Link {
     text-decoration: none;    
+}
+.text-danger {    
+    color: red;
 }

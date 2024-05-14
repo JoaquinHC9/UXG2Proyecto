@@ -16,7 +16,9 @@ export default function Sidebar({ isSidebarExpanded, toggleSidebar }) {
   }
 
   const handleLogout = () => {
-    // Implementa tu lógica de cierre de sesión aquí
+    localStorage.removeItem('token');
+    localStorage.removeItem('correo');
+    localStorage.removeItem('userType');
     navigate('/');
   };
 
@@ -41,13 +43,12 @@ export default function Sidebar({ isSidebarExpanded, toggleSidebar }) {
               <div id="title">{val.title}</div>
             </li>
           ))}
-        </ul>
+          <li className="row" onClick={handleLogout}>
+          <div id="icon">{<ExitToAppIcon />}</div>
+          <div id="title">Cerrar Sesión</div>
+        </li>
+      </ul>
       )}
-
-      <div className="logout-button" onClick={handleLogout}>        
-        <ExitToAppIcon />
-        <div>Cerrar Sesión</div>
-      </div>
     </div>
   );
 }

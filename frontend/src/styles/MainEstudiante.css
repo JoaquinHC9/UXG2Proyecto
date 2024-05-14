@@ -27,3 +27,7 @@
 .search-bar input {
     margin-right: 10px;
 }
+.main h2, .main p {
+    color: black;
+    text-align: center; 
+}

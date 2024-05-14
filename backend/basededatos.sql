@@ -1,6 +1,6 @@
 -- Tabla Estudiante
 CREATE TABLE estudiante (
-  dni VARCHAR(8) PRIMARY KEY,
+  estudiante_dni VARCHAR(8) PRIMARY KEY,
   nombre VARCHAR(25),
   apellido_pat VARCHAR(25),
   apellido_mat VARCHAR(25),
@@ -10,17 +10,6 @@ CREATE TABLE estudiante (
   contra VARCHAR(128)
 );
 
--- Tabla Profesor
-CREATE TABLE profesor (
-  dni VARCHAR(8) PRIMARY KEY,
-  nombre VARCHAR(25),
-  apellido_pat VARCHAR(25),
-  apellido_mat VARCHAR(25),
-  fecha_nacimiento DATE,
-  telefono VARCHAR(9),
-  email VARCHAR(50) UNIQUE NOT NULL,
-  contra VARCHAR(128)
-);
 
 -- Tabla Curso
 CREATE TABLE curso (
@@ -34,8 +23,20 @@ CREATE TABLE curso (
 -- Tabla Estudiante_Curso
 CREATE TABLE estudiante_curso (
   id_est_curso SERIAL PRIMARY KEY,
-  estudiante_dni VARCHAR(8) REFERENCES estudiante(dni),
+  estudiante_dni VARCHAR(8) REFERENCES estudiante(estudiante_dni),
   curso_id INT REFERENCES curso(id_curso)
+);
+
+-- Tabla Profesor
+CREATE TABLE profesor (
+  profesor_dni VARCHAR(8) PRIMARY KEY,
+  nombre VARCHAR(25),
+  apellido_pat VARCHAR(25),
+  apellido_mat VARCHAR(25),
+  fecha_nacimiento DATE,
+  telefono VARCHAR(9),
+  email VARCHAR(50) UNIQUE NOT NULL,
+  contra VARCHAR(128)
 );
 
 -- Tabla Curso_Profesor

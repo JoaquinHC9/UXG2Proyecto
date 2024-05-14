@@ -122,10 +122,15 @@ main {
 
 .date-picker-container label {
     color: #fff;
-    margin-right: 10px;
-    width: 150px;
+    margin-right: 10px;    
 }
-
 .date-picker-container .react-datepicker-wrapper {
     width: 320px;
+}
+
+.date-picker-container .react-datepicker__navigation {    
+    font-size: 1rem; /* Tamaño de fuente */
+    width: 1.5rem; /* Ancho */
+    height: 1.5rem; /* Altura */
+    line-height: 1.5rem;
 }

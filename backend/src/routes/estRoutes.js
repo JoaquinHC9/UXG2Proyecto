@@ -1,16 +1,12 @@
 const express = require('express');
+const {estController} = require ('../controllers/estController');
 const router = express.Router();
-const {estController} = require ('../controllers/estController')
-
 
 router.get('/', estController.getAll);
-router.get('/getFive', estController.getFive);
 router.get("/:email", estController.getEstudiante);
-router.post("/", estController.createEstudiante);
-router.put("/:email", estController.updateEstudiante);
-router.patch("/modTelefono", estController.updateTelefono);
-router.delete("/:email", estController.deleteEstudiante);
+router.post("/register", estController.createEstudiante);
 router.post("/login", estController.login);
-router.get('/codigo/:codigo', estController.getEstudianteByCodigo); // Nueva ruta
+router.get('/dni/:dni', estController.getEstudianteByDni);
+router.get('/:dni/cursos', estController.obtenerCursosPorDNI);
 
 module.exports = router;

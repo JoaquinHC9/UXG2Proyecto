@@ -7,62 +7,62 @@ import axios from "axios";
 import '../styles/Registro.css';
 
 export default function Registro() {
-  
-  const [clienteData, setData] = useState({
+  const [userData, setUserData] = useState({
     dni: '',
     nombre: '',
-    apellidoPat: '',
-    apellidoMat: '',
-    fechaNacimiento: null,    
+    apellido_pat: '',
+    apellido_mat: '',
+    fecha_nacimiento: null,    
     email : '',
     telefono:'',
     sexo:'',
     contra:'',
+    tipoCuenta: 'estudiante'
   });
-  const [confirmarContra, setConfirmarContra] = useState('')
-  const [showModal, setShowModal] = useState(false);  
 
-  const [error, setError] = useState("");
+  const [confirmarContra, setConfirmarContra] = useState('');
+  const [error, setError] = useState('');
 
   const onChange = (event) => {
     const { name, value } = event.target;
-    if (name === 'confirmarContra') {
-      setConfirmarContra(value);
-    } else {
-      setData((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
+    setUserData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
+
   const enviarDatos = async (e) => {
     e.preventDefault();
-    console.log("Contraseña:", clienteData.contra);
-    console.log("Confirmar Contraseña:", confirmarContra);
-    
-    if (clienteData.contra !== confirmarContra) {
+    console.log("contra "+ userData.contra);
+    console.log("confirmar contra "+ confirmarContra);
+    if (userData.contra !== confirmarContra) {
       alert("Las contraseñas no coinciden");
       return;
-    }
-  
+    }  
     try {
-      const url = `${API_URL}/estudiante/registrar`;
-      const response = await axios.post(url, clienteData);
-      setShowModal(true);
+      let url;
+      if (userData.tipoCuenta === 'estudiante') {
+        url = `${API_URL}/estudiantes/register`;
+      } else if (userData.tipoCuenta === 'profesor') {
+        url = `${API_URL}/profesores/register`;
+      }
+      
+      const response = await axios.post(url, userData);
+      // Manejar la respuesta según sea necesario
     } catch (error) {      
       const errorInfo = error.response.data;
       setError(errorInfo.error);
       alert(errorInfo.error);
     }
-  }; 
+  };  
          
 
   const resetFields = () => {
-    setData({
+    setUserData({
       dni: '',
       nombre: '',
       apellido: '',
-      fechaNacimiento: null,      
+      fecha_nacimiento: null,      
       email: '',      
       sexo: '',
       telefono:'',
@@ -88,13 +88,13 @@ export default function Registro() {
                     <label htmlFor='email'>
                         <strong>Email</strong>
                     </label>
-                    <input type='email' placeholder='Digite correo' onChange={onChange} required value={clienteData.email} name='email' className='form-control rounded-0 'style={{ width: '300px' }}></input>
+                    <input type='email' placeholder='Digite correo' onChange={onChange} required value={userData.email} name='email' className='form-control rounded-0 'style={{ width: '300px' }}></input>
                     </div>
                     <div>
                     <label htmlFor='dni'>
                         <strong>DNI</strong>
                     </label>
-                    <input type='text' placeholder='Digite DNI' onChange={onChange} maxLength={8} required value={clienteData.dni} name='dni' className='form-control rounded-0' style={{ width: '300px' }}/>
+                    <input type='text' placeholder='Digite DNI' onChange={onChange} maxLength={8} required value={userData.dni} name='dni' className='form-control rounded-0' style={{ width: '300px' }}/>
                     </div>
                 </div>
                 <div>
@@ -102,29 +102,29 @@ export default function Registro() {
                     <label htmlFor='nombre'>
                         <strong>Nombre</strong>
                     </label>
-                    <input type='text' placeholder='Digite Nombre' onChange={onChange} required value={clienteData.nombre} name='nombre' className='form-control rounded-0' style={{ width: '300px' }}></input>
+                    <input type='text' placeholder='Digite Nombre' onChange={onChange} required value={userData.nombre} name='nombre' className='form-control rounded-0' style={{ width: '300px' }}></input>
                     </div>
                     <div>
-                    <label htmlFor='apellido'>
-                        <strong>Apellido Paterno</strong>
+                    <label htmlFor='apellido_pat'>
+                      <strong>Apellido Paterno</strong>
                     </label>
-                        <input type='text' placeholder='Digite Apellido Paterno' onChange={onChange} required value={clienteData.apellidoPat} name='apellido' className='form-control rounded-0'style={{ width: '300px' }}></input>
-                    </div>
-                    <div>
-                    <label htmlFor='apellido'>
-                        <strong>Apellido Materno</strong>
+                    <input type='text' placeholder='Digite Apellido Paterno' onChange={onChange} required value={userData.apellido_pat} name='apellido_pat' className='form-control rounded-0' style={{ width: '300px' }}></input>
+                  </div>
+                  <div>
+                    <label htmlFor='apellido_mat'>
+                      <strong>Apellido Materno</strong>
                     </label>
-                        <input type='text' placeholder='Digite Apellido Materno' onChange={onChange} required value={clienteData.apellidoMat} name='apellido' className='form-control rounded-0'style={{ width: '300px' }}></input>
-                    </div>
+                    <input type='text' placeholder='Digite Apellido Materno' onChange={onChange} required value={userData.apellido_mat} name='apellido_mat' className='form-control rounded-0' style={{ width: '300px' }}></input>
+                  </div>
                 </div>
                 <div>
                 <div className='date-picker-container'>
-                    <label htmlFor='fechaNacimiento'>
+                    <label htmlFor='fecha_nacimiento'>
                         <strong>Fecha Nacimiento</strong>
                     </label>
                     <DatePicker
-                        selected={clienteData.fechaNacimiento}
-                        onChange={(date) => setData({ ...clienteData, fechaNacimiento: date })}
+                        selected={userData.fecha_nacimiento}
+                        onChange={(date) => setUserData({ ...userData, fecha_nacimiento: date })}
                         placeholderText='Digite o seleccione su cumpleaños'
                         className='form-control rounded-0'                  
                         dateFormat='dd/MM/yy'                  
@@ -137,7 +137,7 @@ export default function Registro() {
                 </label>
                 <select 
                     onChange={onChange}
-                    value={clienteData.sexo}
+                    value={userData.sexo}
                     name='sexo'                    
                     style={{ width: '300px' }}
                     required
@@ -157,7 +157,7 @@ export default function Registro() {
                     onChange={onChange}
                     maxLength={9} 
                     required
-                    value={clienteData.telefono}
+                    value={userData.telefono}
                     name='telefono'
                     className='form-control rounded-0'
                     style={{ width: '300px' }}
@@ -172,7 +172,7 @@ export default function Registro() {
                         placeholder='Digite Contraseña' 
                         onChange={onChange} 
                         required 
-                        value={clienteData.contra} 
+                        value={userData.contra} 
                         name='contra' 
                         className='form-control rounded-0' 
                         style={{ width: '300px' }} 
@@ -183,16 +183,25 @@ export default function Registro() {
                         <strong>Confirmar Contraseña</strong>
                     </label>
                     <input 
-                            type='password' 
-                            placeholder='Confirme Contraseña' 
-                            onChange={onChange} 
-                            required 
-                            value={clienteData.confirmarContra} 
-                            name='confirmarContra' 
-                            className='form-control rounded-0' 
-                            style={{ width: '300px' }} 
-                    />                                    
-                </div>            
+                  type='password' 
+                  placeholder='Confirme Contraseña' 
+                  onChange={(e) => setConfirmarContra(e.target.value)}
+                  required 
+                  value={confirmarContra}
+                  name='confirmarContra' 
+                  className='form-control rounded-0' 
+                  style={{ width: '300px' }} 
+                />
+                </div>
+                <select
+                  name="tipoCuenta"
+                  value={userData.tipoCuenta}
+                  onChange={onChange}
+                >
+                  <option disabled value=''>Seleccionar</option>
+                  <option value="estudiante">Estudiante</option>
+                  <option value="profesor">Profesor</option>
+                </select>            
             <button>Registrar</button>
             </form>
         </div>
