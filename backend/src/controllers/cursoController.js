@@ -1,14 +1,33 @@
-const db = require('../config/db');
+const Curso = require('../models/Curso');
 
 module.exports.cursoController = {
-  getAllCursos: (req, res) => {
-    db.query('SELECT * FROM curso', (err, result) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Error en la conexión a la base de datos' });
-      }
-
-      res.json(result.rows);
-    });
+  getTemasPorCurso: async (req, res) => {
+    try {
+      const { id_curso } = req.params;
+      
+      const curso = await Curso.findByPk(id_curso);
+      if (!curso) {
+        return res.status(404).json({ error: 'Curso no encontrado' });
+      }      
+      const temasCursos = await curso.getTemas();
+      console.log('Temas del curso', temasCursos);
+      res.json(temasCursos);
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
   },
+  getCursoPorId: async(req,res)=>{
+    try {
+      const { id_curso } = req.params;
+      const curso = await Curso.findByPk(id_curso);
+      if (!curso) {
+        return res.status(404).json({ error: 'Curso no encontrado' });        
+      }
+      res.json(curso);
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
+  }
 };

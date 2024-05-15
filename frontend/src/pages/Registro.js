@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { API_URL } from "../config/config";
 import axios from "axios";
 import '../styles/Registro.css';
+import Swal from 'sweetalert2';
 
 export default function Registro() {
   const [userData, setUserData] = useState({
@@ -32,31 +33,40 @@ export default function Registro() {
   };
 
   const enviarDatos = async (e) => {
-    e.preventDefault();
-    console.log("contra "+ userData.contra);
-    console.log("confirmar contra "+ confirmarContra);
+    e.preventDefault();    
     if (userData.contra !== confirmarContra) {
       alert("Las contraseñas no coinciden");
       return;
     }  
     try {
       let url;
+      let dataToSend = { ...userData }; 
       if (userData.tipoCuenta === 'estudiante') {
         url = `${API_URL}/estudiantes/register`;
+        dataToSend.estudiante_dni = dataToSend.dni; 
+        delete dataToSend.dni; 
       } else if (userData.tipoCuenta === 'profesor') {
         url = `${API_URL}/profesores/register`;
-      }
-      
-      const response = await axios.post(url, userData);
-      // Manejar la respuesta según sea necesario
+        dataToSend.profesor_dni = dataToSend.dni; 
+        delete dataToSend.dni; 
+      }      
+      const response = await axios.post(url, dataToSend);      
+      Swal.fire({
+        icon: 'success',
+        title: 'Registro exitoso',
+        text: 'El usuario se ha registrado correctamente.',
+      });
     } catch (error) {      
       const errorInfo = error.response.data;
       setError(errorInfo.error);
-      alert(errorInfo.error);
+      console.log(errorInfo.error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error en el registro',
+        text: 'El dni o correo ya se encuentra registrados en el sistema',
+      });
     }
-  };  
-         
-
+  };
   const resetFields = () => {
     setUserData({
       dni: '',

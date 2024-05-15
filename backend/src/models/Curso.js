@@ -24,7 +24,7 @@ Curso.init({
   },
 }, {
   sequelize,
-  modelName: 'Curso',
+  modelName: 'curso',
   freezeTableName: true,
   timestamps: false
 });

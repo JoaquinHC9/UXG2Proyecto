@@ -15,7 +15,7 @@ EstudianteCurso.init({
     type: DataTypes.STRING(8),
     allowNull: false,
     references: {
-      model: 'Estudiante', // <- Referencia al modelo Estudiante
+      model: 'Estudiante', 
       key: 'estudiante_dni',
     },
   },
@@ -23,7 +23,7 @@ EstudianteCurso.init({
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Curso', // <- Referencia al modelo Curso
+      model: 'Curso', 
       key: 'id_curso',
     },
   },

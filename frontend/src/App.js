@@ -7,6 +7,8 @@ import LoginProf from "./pages/LoginProfesor.js";
 import MainEst from "./pages/MainEstudiante.js";
 import MainProf from "./pages/MainProfesor.js";
 import Registro from "./pages/Registro.js";
+import CursoDetalle from './pages/CursoDetalle';
+import Publicacion from './pages/Publicacion';
 import { Helmet } from "react-helmet";
 import React, { useState } from 'react';
 
@@ -31,6 +33,8 @@ function App() {
           <Route path="/LoginProfesor" element={<LoginProf />} /> 
           <Route path="/MainEstudiante" element={<MainEst isSidebarExpanded={isSidebarExpanded} />} /> 
           <Route path="/MainProfesor" element={<MainEst isSidebarExpanded={isSidebarExpanded} />} /> 
+          <Route path="/Curso/:id_curso" element={<CursoDetalle isSidebarExpanded={isSidebarExpanded} />} />
+          <Route path="/Publicacion/:id_publicacion" element={<Publicacion />} />
         </Routes>
       </Router>
     </div>

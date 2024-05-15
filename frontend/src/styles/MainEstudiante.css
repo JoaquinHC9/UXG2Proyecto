@@ -7,11 +7,11 @@
     align-items: center;
     width: calc(100% - 250px);
     margin-left: 250px; 
-    transition: margin-left 0.3s ease; /* Transición del margen izquierdo */
+    transition: margin-left 0.3s ease; 
 }
 
 .header-container.collapsed {
-    margin-left: 40px; /* Margen reducido para mover hacia la izquierda */
+    margin-left: 40px;
     width: auto
 }
 
@@ -30,4 +30,42 @@
 .main h2, .main p {
     color: black;
     text-align: center; 
+}
+.curso-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.curso-card {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 10px;
+    width: 300px;
+}
+
+.curso-card h3 {
+    margin-top: 0;
+}
+
+.curso-card p {
+    margin: 10px 0;
+}
+
+.curso-card a {
+    display: block;
+    text-align: center;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    padding: 10px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.curso-card a:hover {
+    background-color: #555;
 }

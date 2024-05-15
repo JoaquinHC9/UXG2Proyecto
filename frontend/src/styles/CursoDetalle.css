@@ -1,0 +1,96 @@
+.curso-detalle-principal {
+    display: flex;
+    margin-left: 250px;
+}
+
+.curso-detalle-tareas {
+    width: 250px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #D6D6D6;
+    color: black;
+    padding: 20px;
+}
+
+.curso-detalle-tareas h3,
+.curso-detalle-tareas h4 {
+    margin: 10px 0;
+}
+
+.curso-detalle-tareas button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #FF9500;
+    border: none;
+    color: black;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.curso-detalle-temas {
+    flex: 1;
+    padding-left: 20px;
+    overflow-y: auto;
+}
+
+.tema-list {
+    margin-top: 20px;    
+}
+
+.tema-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    background-color:#9b9b9b;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border: 3px solid black;
+}
+
+.tema-item h3 {
+    margin: 0 0 10px;
+    text-align: left;
+    color: #f0f0f0;
+}
+
+.tema-item p {
+    margin: 0;
+}
+
+.publicacion {
+    margin-bottom: 20px;
+    text-align: left;
+    background-color: #ccc;
+    border-radius: 30px;    
+}
+
+.publicacion-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.publicacion-info {
+    flex: 1;
+}
+
+.publicacion-contenido {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.publicacion-contenido p {
+    margin-bottom: 10px;
+}
+
+.publicacion-header.expanded {
+    background-color: #ccc; 
+}

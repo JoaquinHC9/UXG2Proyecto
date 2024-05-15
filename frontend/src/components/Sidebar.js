@@ -4,6 +4,7 @@ import { SidebarDataEst } from './SidebarDataEst';
 import MenuIcon from '@mui/icons-material/Menu';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate, useLocation } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
 
 export default function Sidebar({ isSidebarExpanded, toggleSidebar }) {
   const navigate = useNavigate();
@@ -15,11 +16,18 @@ export default function Sidebar({ isSidebarExpanded, toggleSidebar }) {
     return null;
   }
 
+  const userType = localStorage.getItem('userType');
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('correo');
     localStorage.removeItem('userType');
     navigate('/');
+  };
+
+  const handleMainClick = () => {
+    const mainRoute = userType === 'estudiante' ? '/MainEstudiante' : '/MainProfesor';
+    navigate(mainRoute);
   };
 
   return (
@@ -30,6 +38,10 @@ export default function Sidebar({ isSidebarExpanded, toggleSidebar }) {
 
       {isSidebarExpanded && (
         <ul className="SidebarList">
+          <li className="row" onClick={handleMainClick}>
+            <div id="icon">{<HomeIcon />}</div>
+            <div id="title">Main</div>
+          </li>
           {SidebarDataEst.map((val, key) => (
             <li
               key={key}
@@ -42,12 +54,12 @@ export default function Sidebar({ isSidebarExpanded, toggleSidebar }) {
               <div id="icon">{val.icon}</div>
               <div id="title">{val.title}</div>
             </li>
-          ))}
+          ))}          
           <li className="row" onClick={handleLogout}>
-          <div id="icon">{<ExitToAppIcon />}</div>
-          <div id="title">Cerrar Sesión</div>
-        </li>
-      </ul>
+            <div id="icon">{<ExitToAppIcon />}</div>
+            <div id="title">Cerrar Sesión</div>
+          </li>
+        </ul>
       )}
     </div>
   );

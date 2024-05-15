@@ -16,8 +16,6 @@ module.exports.estController = {
       res.status(500).json({ error: 'Error en el servidor' });
     }
   },
-   
-
   getAll: async (req, res) => {
     try {
       const estudiantes = await Estudiante.findAll();

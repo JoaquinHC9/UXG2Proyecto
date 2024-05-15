@@ -41,7 +41,7 @@ Estudiante.init({
   },
 }, {
   sequelize,
-  modelName: "Estudiante", // <- Nombre del modelo
+  modelName: "estudiante",
   timestamps: false,
   freezeTableName: true  
 });
