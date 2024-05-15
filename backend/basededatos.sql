@@ -22,7 +22,7 @@ CREATE TABLE curso (
 
 CREATE TABLE Tema (
   id_tema SERIAL PRIMARY KEY,
-  nombre VARCHAR(100) NOT NULL,  
+  nombre VARCHAR(100) NOT NULL
 );
 CREATE TABLE CursoTema (
   id_curso_tema SERIAL PRIMARY KEY,
@@ -32,7 +32,7 @@ CREATE TABLE CursoTema (
 
 
 -- Tabla Estudiante_Curso
-CREATE TABLE estudiante_curso (
+CREATE TABLE estudiantecurso (
   id_est_curso SERIAL PRIMARY KEY,
   estudiante_dni VARCHAR(8) REFERENCES estudiante(estudiante_dni),
   curso_id INT REFERENCES curso(id_curso)
@@ -50,19 +50,13 @@ CREATE TABLE profesor (
   contra VARCHAR(128)
 );
 
--- Tabla Curso_Profesor
-CREATE TABLE curso_profesor (
+-- Tabla cursorofesor
+CREATE TABLE cursoprofesor (
   id_curso_profesor SERIAL PRIMARY KEY,
-  profesor_dni VARCHAR(8) REFERENCES profesor(dni),
+  profesor_dni VARCHAR(8) REFERENCES profesor(profesor_dni),
   curso_id INT REFERENCES curso(id_curso)
 );
 
--- Tabla Tipo_Evaluacion
-CREATE TABLE tipo_evaluacion (
-  id_tipo_eva SERIAL PRIMARY KEY,
-  nombre VARCHAR(25),
-  descripcion VARCHAR(50)
-);
 
 -- Tabla Evaluacion
 CREATE TABLE evaluacion (
@@ -71,14 +65,13 @@ CREATE TABLE evaluacion (
   descripcion VARCHAR(50),
   fecha_limite DATE, 
   puntuacion_max DECIMAL(10,2),
-  eva_tipo INT REFERENCES tipo_evaluacion(id_tipo_eva),
   curso_id INT REFERENCES curso(id_curso) 
 );
 
 -- Tabla Estudiante_Evaluacion
-CREATE TABLE estudiante_evaluacion (
+CREATE TABLE estudianteevaluacion (
   id_est_eva SERIAL PRIMARY KEY,
-  est_dni VARCHAR(8) REFERENCES estudiante(dni),
+  est_dni VARCHAR(8) REFERENCES estudiante(estudiante_dni),
   eva_id INT REFERENCES evaluacion(id_evaluacion),
   fecha_envio DATE,
   calificacion DECIMAL(10,2),
@@ -98,7 +91,7 @@ INSERT INTO EstudianteCurso (id_est_curso, estudiante_dni, curso_id) VALUES
 (1, '72270862', 2),
 (2, '72270862', 3);
 
-INSERT INTO Tema (id_curso, nombre) VALUES
+INSERT INTO Tema (nombre) VALUES
 ('S1-Introducción a la programación orientada a objetos'),
 ('S2-Encapsulamiento y abstracción'),
 ('S3-Herencia y polimorfismo'),
