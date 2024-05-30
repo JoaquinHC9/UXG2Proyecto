@@ -6,6 +6,8 @@ const EstudianteCurso = require('./EstudianteCurso');
 const Publicacion = require('./Publicacion');
 const Tema = require('./Tema');
 const TipoPublicacion = require('./TipoPublicacion');
+const Profesor= require('./Profesor');
+const CursoProfesor = require('./CursoProfesor');
 
 Estudiante.belongsToMany(Curso, {
   through: { model: EstudianteCurso }, 
@@ -42,3 +44,17 @@ Publicacion.belongsTo(Tema, { foreignKey: 'id_tema' });
 
 Publicacion.belongsTo(TipoPublicacion, { foreignKey: 'tipo_publicacion_id' });
 TipoPublicacion.hasMany(Publicacion, { foreignKey: 'tipo_publicacion_id' });
+
+Profesor.belongsToMany(Curso, {
+  through: { model: CursoProfesor }, 
+  foreignKey: 'profesor_dni',
+  otherKey: 'id_curso', 
+});
+
+Curso.belongsToMany(Profesor, { 
+  through: { model: CursoProfesor}, 
+  foreignKey: 'id_curso',
+  otherKey: 'profesor_dni'
+});
+CursoProfesor.belongsTo(Curso, { foreignKey: 'id_curso' });
+CursoProfesor.belongsTo(Profesor, { foreignKey: 'profesor_dni' });

@@ -1,72 +1,76 @@
-const db = require('../config/db');
+const Profesor = require('../models/Profesor');
 
 module.exports.profController = {
-  login: (req, res) => {
-    const { email, contra } = req.body;
-    db.query('SELECT * FROM profesor WHERE email = $1 AND contra = $2', [email, contra], (err, result) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Error en la conexión a la base de datos' });
-      }
+  login: async (req, res) => {
+    try {
+      const { email, contra } = req.body;
+      const profesor = await Profesor.findOne({ where: { email, contra } });
 
-      if (result.rows.length > 0) {
+      if (profesor) {
         res.json({ success: true, msg: 'Inicio de sesión exitoso' });
       } else {
         res.json({ success: false, msg: 'Credenciales incorrectas' });
       }
-    });
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
   },
-  getProfesor: (req, res) => {
-    const { email } = req.params;
-    db.query('SELECT * FROM profesor WHERE email = $1', [email], (err, result) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Error en la conexión a la base de datos' });
-      }
 
-      if (result.rows.length > 0) {
-        const user = result.rows[0];
-        delete user.contra;
-        res.json(user);
+  getProfesor: async (req, res) => {
+    try {
+      const { email } = req.params;
+      const profesor = await Profesor.findOne({ where: { email } });
+
+      if (profesor) {
+        res.json(profesor);
       } else {
-        res.json({ error: 'Profesor no encontrado' });
+        res.status(404).json({ error: 'Profesor no encontrado' });
       }
-    });
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
   },
-  
-  getAllProfesores: (req, res) => {
-    db.query('SELECT * FROM profesor', (err, result) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Error en la conexión a la base de datos' });
-      }
 
-      res.json(result.rows);
-    });
+  getAllProfesores: async (req, res) => {
+    try {
+      const profesores = await Profesor.findAll();
+      res.json(profesores);
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
   },
-  createProfesor: (req, res) => {
-    const {
-      dni,
-      nombre,
-      apellido_pat,
-      apellido_mat,
-      fecha_nacimiento,
-      telefono,
-      email,
-      contra,      
-    } = req.body;
 
-    db.query(
-      'INSERT INTO profesor (dni, nombre, apellido_pat, apellido_mat, fecha_nacimiento, telefono, email, contra) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-      [dni, nombre, apellido_pat, apellido_mat, fecha_nacimiento, telefono, email, contra],
-      (err) => {
-        if (err) {
-          console.error(err);
-          res.status(500).json({ error: 'Error en el controlador' });
-        } else {
-          res.json({ msg: 'Profesor registrado correctamente' });
-        }
-      }
-    );
-  },
+  createProfesor: async (req, res) => {
+    try {
+      const {
+        profesor_dni,
+        nombre,
+        apellido_pat,
+        apellido_mat,
+        fecha_nacimiento,
+        telefono,
+        email,
+        contra,
+      } = req.body;
+
+      const nuevoProfesor = await Profesor.create({
+        profesor_dni,
+        nombre,
+        apellido_pat,
+        apellido_mat,
+        fecha_nacimiento,
+        telefono,
+        email,
+        contra,
+      });
+
+      res.json({ msg: 'Profesor registrado correctamente', profesor: nuevoProfesor });
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
+  }
 };

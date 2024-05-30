@@ -54,7 +54,7 @@ CREATE TABLE profesor (
 CREATE TABLE cursoprofesor (
   id_curso_profesor SERIAL PRIMARY KEY,
   profesor_dni VARCHAR(8) REFERENCES profesor(profesor_dni),
-  curso_id INT REFERENCES curso(id_curso)
+  id_curso INT REFERENCES curso(id_curso)
 );
 
 
