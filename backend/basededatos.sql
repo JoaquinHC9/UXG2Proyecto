@@ -35,7 +35,7 @@ CREATE TABLE CursoTema (
 CREATE TABLE estudiantecurso (
   id_est_curso SERIAL PRIMARY KEY,
   estudiante_dni VARCHAR(8) REFERENCES estudiante(estudiante_dni),
-  curso_id INT REFERENCES curso(id_curso)
+  id_curso INT REFERENCES curso(id_curso)
 );
 
 -- Tabla Profesor
@@ -60,22 +60,22 @@ CREATE TABLE cursoprofesor (
 
 -- Tabla Evaluacion
 CREATE TABLE evaluacion (
-  id_evaluacion SERIAL PRIMARY KEY,
-  nombre VARCHAR(50),
-  descripcion VARCHAR(50),
-  fecha_limite DATE, 
-  puntuacion_max DECIMAL(10,2),
-  curso_id INT REFERENCES curso(id_curso) 
+    id_evaluacion INT PRIMARY KEY,
+    nombre VARCHAR(50),
+    descripcion VARCHAR(25),
+    fecha_lim DATE,
+    puntos_max VARCHAR(50),
+    id_publicacion INT REFERENCES publicacion(id_publicacion)
 );
 
 -- Tabla Estudiante_Evaluacion
 CREATE TABLE estudianteevaluacion (
-  id_est_eva SERIAL PRIMARY KEY,
-  est_dni VARCHAR(8) REFERENCES estudiante(estudiante_dni),
-  eva_id INT REFERENCES evaluacion(id_evaluacion),
-  fecha_envio DATE,
-  calificacion DECIMAL(10,2),
-  comentario TEXT 
+    id_est_eva INT PRIMARY KEY,
+    id_est VARCHAR(8) REFERENCES estudiante(estudiante_dni),
+    id_eva INT REFERENCES evaluacion(id_evaluacion),
+    fecha_envio DATE,
+    calificacion INT,
+    comentario VARCHAR(100)
 );
 
 INSERT INTO estudiante (estudiante_dni, nombre, apellido_pat, apellido_mat, fecha_nacimiento, telefono, email, contra)

@@ -4,9 +4,9 @@ module.exports.estController = {
   getEstudiante: async (req, res) => {
     try {
       const { email } = req.params;
-      console.log('Email recibido:', email); // Agregar esta línea para verificar el valor de email
+      console.log('Email recibido:', email); 
       const estudiante = await Estudiante.findOne({ where: { email } });
-      console.log('Estudiante encontrado:', estudiante); // Agregar esta línea para verificar el valor de estudiante
+      console.log('Estudiante encontrado:', estudiante);
       if (!estudiante) {
         return res.status(404).json({ error: 'Estudiante no encontrado' });
       }
@@ -107,6 +107,35 @@ module.exports.estController = {
     } catch (error) {
       console.error('Error en el controlador:', error);
       return res.status(500).json({ error: 'Error en el servidor' });
+    }
+  },
+
+  updateEstudiante: async (req, res) => {
+    try {
+      const correo = req.params.email;
+      const {
+        nombre,
+        apellido_pat,
+        apellido_mat,
+        fecha_nacimiento,
+        telefono
+      } = req.body;
+      
+      const estudiante = await Estudiante.findOne({ where: { email: correo } });
+      if (!estudiante) {
+        return res.status(404).json({ error: 'Estudiante no encontrado' });
+      }      
+      estudiante.nombre = nombre;
+      estudiante.apellido_pat = apellido_pat;
+      estudiante.apellido_mat = apellido_mat;
+      estudiante.fecha_nacimiento = fecha_nacimiento;
+      estudiante.telefono = telefono;      
+      await estudiante.save();
+
+      res.json({ success: true, msg: 'Datos de estudiante actualizados correctamente' });
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
     }
   }
 };

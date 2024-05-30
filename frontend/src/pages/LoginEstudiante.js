@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link  } from 'react-router-dom';
 import { API_URL } from '../config/config.js';
 import '../styles/Login.css';
 
-import bgEstudiante from '../images/bg-estudiante.jpg'; 
 
 export default function LoginEstudiante() {
   const [contrasena, setContrasena] = useState('');
