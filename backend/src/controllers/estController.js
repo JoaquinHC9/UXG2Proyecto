@@ -88,8 +88,6 @@ module.exports.estController = {
     try {
       const { dni: estudiante_dni } = req.params;
       console.log('DNI del estudiante:', estudiante_dni);
-  
-      // Buscar al estudiante por su DNI
       const estudiante = await Estudiante.findOne({
         where: { estudiante_dni: estudiante_dni }
       });
@@ -97,10 +95,11 @@ module.exports.estController = {
       if (!estudiante) {
         console.log('Estudiante no encontrado');
         return res.status(404).json({ error: 'Estudiante no encontrado' });
-      }
-  
-      // Obtener los cursos del estudiante
-      const estudiantecursos = await estudiante.getCursos();
+      }        
+      // Obtener los cursos activos del estudiante
+      const estudiantecursos = await estudiante.getCursos({
+        where: { activo: true } // Filtrar cursos activos
+      });     
   
       console.log('Cursos del estudiante:', estudiantecursos);
       return res.json(estudiantecursos);

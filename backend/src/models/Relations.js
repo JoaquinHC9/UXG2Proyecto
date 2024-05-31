@@ -42,9 +42,6 @@ CursoTema.belongsTo(Tema,{foreignKey:'id_tema'});
 Tema.hasMany(Publicacion,{foreignKey:'id_tema'});
 Publicacion.belongsTo(Tema, { foreignKey: 'id_tema' });
 
-Publicacion.belongsTo(TipoPublicacion, { foreignKey: 'tipo_publicacion_id' });
-TipoPublicacion.hasMany(Publicacion, { foreignKey: 'tipo_publicacion_id' });
-
 Profesor.belongsToMany(Curso, {
   through: { model: CursoProfesor }, 
   foreignKey: 'profesor_dni',

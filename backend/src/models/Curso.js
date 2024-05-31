@@ -22,6 +22,10 @@ Curso.init({
   horario: {
     type: DataTypes.STRING(50),
   },
+  activo: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
+  }
 }, {
   sequelize,
   modelName: 'curso',

@@ -6,5 +6,6 @@ router.get("/", profController.getAllProfesores);
 router.get("/:email", profController.getProfesor);
 router.post("/login", profController.login);
 router.post("/register", profController.createProfesor);
+router.get("/cursos/:profesor_dni", profController.getCursosByProfesor);
 
 module.exports = router;

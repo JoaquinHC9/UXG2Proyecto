@@ -113,17 +113,6 @@ INSERT INTO CursoTema (id_curso, id_tema) VALUES
 (3, 6),
 (3, 7);
 
-CREATE TABLE TipoPublicacion (
-  id_tipo_publicacion SERIAL PRIMARY KEY,
-  nombre VARCHAR(50) NOT NULL
-);
-
-INSERT INTO TipoPublicacion (nombre) VALUES
-('Tarea'),
-('Cuestionario'),
-('Pregunta'),
-('Material');
-
 CREATE TABLE Publicacion (
   id_publicacion SERIAL PRIMARY KEY,
   titulo VARCHAR(100) NOT NULL,

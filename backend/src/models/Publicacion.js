@@ -32,7 +32,11 @@ Publicacion.init({
     type: DataTypes.CHAR(1),
     allowNull: false,
     defaultValue: 'N'
-  }
+  },
+  tipo_publicacion: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
 }, {
     sequelize,
     modelName: "publicacion",  

@@ -33,7 +33,7 @@ function App() {
           <Route path="/LoginEstudiante" element={<LoginEst />} /> 
           <Route path="/LoginProfesor" element={<LoginProf />} /> 
           <Route path="/MainEstudiante" element={<MainEst isSidebarExpanded={isSidebarExpanded} />} /> 
-          <Route path="/MainProfesor" element={<MainProf isSidebarExpanded={isSidebarExpanded} />} /> 
+          <Route path="/MainProfesor" element={<MainProf />} /> 
           <Route path="/Curso/:id_curso" element={<CursoDetalle isSidebarExpanded={isSidebarExpanded} />} />
           <Route path="/Publicacion/:id_publicacion" element={<Publicacion />} />
           <Route path="/Perfil/" element={<Perfil  />} />

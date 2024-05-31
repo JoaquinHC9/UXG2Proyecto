@@ -72,5 +72,25 @@ module.exports.profController = {
       console.error('Error en el controlador:', error);
       res.status(500).json({ error: 'Error en el servidor' });
     }
+  },
+  getCursosByProfesor: async (req, res) => {
+    try {
+      const { profesor_dni } = req.params;      
+      const profesor = await Profesor.findOne({
+        where: { profesor_dni }
+      });
+
+      if (!profesor) {
+        return res.status(404).json({ error: 'Profesor no encontrado' });
+      }      
+      const cursos = await profesor.getCursos({
+          where: { activo: true } 
+        }
+      );
+      res.json(cursos);
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
   }
 };

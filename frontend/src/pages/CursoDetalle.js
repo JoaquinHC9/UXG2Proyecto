@@ -100,10 +100,6 @@ export default function CursoDetalle() {
                                         <div className='publicacion' key={idx}>
                                             <div className={`publicacion-header ${expandedItem === idx ? 'expanded' : ''}`}
                                             onClick={() => toggleExpand(idx)}>
-                                                {pub.tipo_publicacion_id === 1 && <AssignmentIcon />}
-                                                {pub.tipo_publicacion_id === 2 && <QuestionAnswerIcon />}
-                                                {pub.tipo_publicacion_id === 3 && <AssignmentTurnedInIcon />}
-                                                {pub.tipo_publicacion_id === 4 && <DescriptionIcon />}
                                                 <div className="publicacion-info">
                                                     <h4>{pub.titulo}</h4>
                                                     <p>{formatFecha(pub.fecha_publicacion)}</p>
@@ -112,12 +108,10 @@ export default function CursoDetalle() {
                                             {expandedItem === idx && (
                                                 <div className="publicacion-contenido">
                                                     <p>{pub.contenido}</p>                                                    
-                                                    {pub.tipo_publicacion_id === 4 && (
-                                                        <Button variant="contained" onClick={() => handleMaterialPreview(pub.id_publicacion)}>
-                                                            Ver Material
-                                                        </Button>
-                                                    )}
-                                                    {pub.tipo_publicacion_id !== 4 && <p>Alumno: {pub.url_alumno}</p>}                                                    
+                                                    <Button variant="contained" onClick={() => handleMaterialPreview(pub.id_publicacion)}>
+                                                        Ver Material
+                                                    </Button>
+                                                    {pub.completado !== 'A' && <p>Alumno: {pub.url_alumno}</p>}
                                                 </div>
                                             )}
                                         </div>
