@@ -1,5 +1,5 @@
+const sequelize = require('../config/db');
 const Publicacion = require('../models/Publicacion');
-const TipoPublicacion = require('../models/TipoPublicacion');
 const Tema = require('../models/Tema');
 
 module.exports.publiController = {
@@ -32,6 +32,31 @@ module.exports.publiController = {
     } catch (error) {
       console.error('Error en el controlador:', error);
       res.status(500).json({ error: 'Error en el servidor' });
+    }
+  },
+  agregarPublicacion: async (req,res)=>{
+    const {id_tema}=req.params;
+    const {
+      titulo,
+      contenido,      
+      url_profesor,
+      tipo_publicacion,
+      completado,
+    } = req.body;
+    try{
+      const nuevaPublicacion = await Publicacion.create({
+        titulo,
+        contenido,
+        fecha_publicacion: new Date(),
+        url_profesor,
+        tipo_publicacion,
+        completado,
+        id_tema
+       });
+       res.status(201).json({ msg: 'Publicación creada correctamente', publicacion: nuevaPublicacion });
+    } catch (error){
+      console.error('Error en el controlador:', error);
+      return res.status(500).json({ error: 'Error al crear la publicación' });
     }
   }
 };

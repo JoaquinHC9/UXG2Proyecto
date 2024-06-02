@@ -5,7 +5,6 @@ const Estudiante = require('./Estudiante');
 const EstudianteCurso = require('./EstudianteCurso');
 const Publicacion = require('./Publicacion');
 const Tema = require('./Tema');
-const TipoPublicacion = require('./TipoPublicacion');
 const Profesor= require('./Profesor');
 const CursoProfesor = require('./CursoProfesor');
 

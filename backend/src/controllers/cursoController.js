@@ -1,8 +1,9 @@
 const Curso = require('../models/Curso');
 const CursoProfesor = require('../models/CursoProfesor');
 const EstudianteCurso = require('../models/EstudianteCurso');
-const CursoTema = require('../models/EstudianteCurso');
-
+const CursoTema = require('../models/CursoTema');
+const Tema = require('../models/Tema');
+const Estudiante = require('../models/Estudiante');
 module.exports.cursoController = {
   getTemasPorCurso: async (req, res) => {
     try {
@@ -104,5 +105,57 @@ module.exports.cursoController = {
         console.error('Error en el controlador:', error);
         return res.status(500).json({ error: 'Error en el servidor' });
     }
-}
+  },
+  agregarTema: async (req,res)=>{
+    const {id_curso} = req.params;
+    const {nombre} = req.body;
+    try {      
+      const result = await Tema.sequelize.transaction(async (t) => {        
+        const nuevoTema = await Tema.create({   
+          nombre       
+        }, { transaction: t });
+        await CursoTema.create({
+          id_curso: id_curso,
+          id_tema: nuevoTema.id_tema
+        }, { transaction: t });
+        return nuevoTema;
+      });
+      res.json({ msg: 'Curso creado correctamente y asociado al profesor', tema: result });
+    }catch (error){
+      console.error('Error en el controlador:', error);
+      return res.status(500).json({error: 'Error al crear el tema'});
+    }
+  },
+  agregarEstudiante: async (req,res)=>{
+    const { id_curso } = req.params;
+    const { email } = req.body;
+    try{
+      const curso = await Curso.findByPk(id_curso);
+      if (!curso) {
+        return res.status(404).json({ error: 'El curso no existe' });
+      }
+      const estudiante = await Estudiante.findOne({ where: { email } });
+      if (!estudiante) {
+        return res.status(404).json({ error: 'El estudiante no existe' });
+      }
+      const estudianteCursoExistente = await EstudianteCurso.findOne({
+        where: {
+          estudiante_dni: estudiante.estudiante_dni,
+          id_curso: id_curso
+        }
+      });
+  
+      if (estudianteCursoExistente) {
+        return res.status(400).json({ error: 'El estudiante ya está asociado a este curso' });
+      }
+      const nuevaAsociacion = await EstudianteCurso.create({
+        estudiante_dni: estudiante.estudiante_dni,
+        id_curso: id_curso
+      });
+      res.status(201).json({ msg: 'Estudiante agregado al curso correctamente', estudianteCurso: nuevaAsociacion });
+    }catch (error){
+      console.error('Error en el controlador:', error);
+      return res.status(500).json({ error: 'Error al agregar el estudiante al curso' });
+    }
+  }
 };
