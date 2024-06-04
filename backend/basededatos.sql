@@ -120,7 +120,7 @@ CREATE TABLE Publicacion (
   fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   url_profesor VARCHAR(255),
   url_alumno VARCHAR(255),  
-  tipo_publicacion_id VARCHAR,
+  tipo_publicacion VARCHAR(50),
   completado CHAR(1) NOT NULL DEFAULT A, /*N no completado, C completado, A no aplicable*/
   id_tema INT NOT NULL,  
   FOREIGN KEY (id_tema) REFERENCES Tema(id_tema)

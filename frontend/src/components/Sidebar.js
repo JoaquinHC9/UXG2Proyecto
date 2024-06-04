@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/Sidebar.css';
 import { SidebarDataEst } from './SidebarDataEst';
+import { SidebarDataProf } from './SidebarDataProf';
 import MenuIcon from '@mui/icons-material/Menu';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -30,6 +31,8 @@ export default function Sidebar({ isSidebarExpanded, toggleSidebar }) {
     navigate(mainRoute);
   };
 
+  const SidebarData = userType === 'estudiante' ? SidebarDataEst : SidebarDataProf;
+
   return (
     <div className={`Sidebar ${isSidebarExpanded ? 'expanded' : 'collapsed'}`}>
       <div className="toggle-button" onClick={toggleSidebar}>
@@ -39,10 +42,10 @@ export default function Sidebar({ isSidebarExpanded, toggleSidebar }) {
       {isSidebarExpanded && (
         <ul className="SidebarList">
           <li className="row" onClick={handleMainClick}>
-            <div id="icon">{<HomeIcon />}</div>
+            <div id="icon"><HomeIcon /></div>
             <div id="title">Main</div>
           </li>
-          {SidebarDataEst.map((val, key) => (
+          {SidebarData.map((val, key) => (
             <li
               key={key}
               className="row"
@@ -54,9 +57,9 @@ export default function Sidebar({ isSidebarExpanded, toggleSidebar }) {
               <div id="icon">{val.icon}</div>
               <div id="title">{val.title}</div>
             </li>
-          ))}          
+          ))}
           <li className="row" onClick={handleLogout}>
-            <div id="icon">{<ExitToAppIcon />}</div>
+            <div id="icon"><ExitToAppIcon /></div>
             <div id="title">Cerrar Sesión</div>
           </li>
         </ul>

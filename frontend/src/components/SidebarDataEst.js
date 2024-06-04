@@ -12,9 +12,5 @@ export const SidebarDataEst = [
     icon: <LibraryBooksIcon />,
     link: '/Tareas',
   },
-  {
-    title: 'Cursos',
-    icon: <HomeWorkIcon />,
-    link: '/Cursos',
-  }
+  
 ];

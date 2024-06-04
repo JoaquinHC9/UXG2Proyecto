@@ -1,17 +1,26 @@
 import './styles/App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+//componentes
 import Sidebar from "./components/Sidebar";
+
+//paginas
 import Portal from "./pages/Portal.js";
-import LoginEst from "./pages/LoginEstudiante.js";
-import LoginProf from "./pages/LoginProfesor.js";
-import MainEst from "./pages/MainEstudiante.js";
 import Perfil from "./pages/Perfil.js"
-import MainProf from "./pages/MainProfesor.js";
 import Registro from "./pages/Registro.js";
-import CursoDetalle from './pages/CursoDetalle';
+//pagina est
 import Publicacion from './pages/Publicacion';
+import CursoDetalleEst from './pages/CursoDetalleEst.js';
+import LoginEst from "./pages/LoginEstudiante.js";
+import MainEst from "./pages/MainEstudiante.js";
+// pagina prof
+import MainProf from "./pages/MainProfesor.js";
+import CursoDetalleProf from './pages/CursoDetalleProf.js';
+import LoginProf from "./pages/LoginProfesor.js";
+import AgregarEstudiante from './pages/AgregarEstudiante.js';
+//main
 import { Helmet } from "react-helmet";
 import React, { useState } from 'react';
+
 
 function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
@@ -28,15 +37,22 @@ function App() {
         </Helmet>
         <Sidebar isSidebarExpanded={isSidebarExpanded} toggleSidebar={toggleSidebar} /> 
         <Routes>
+          {/*rutas generales*/}
           <Route path="/" element={<Portal />} />
           <Route path="/Registro" element={<Registro />} /> 
-          <Route path="/LoginEstudiante" element={<LoginEst />} /> 
-          <Route path="/LoginProfesor" element={<LoginProf />} /> 
-          <Route path="/MainEstudiante" element={<MainEst isSidebarExpanded={isSidebarExpanded} />} /> 
-          <Route path="/MainProfesor" element={<MainProf />} /> 
-          <Route path="/Curso/:id_curso" element={<CursoDetalle isSidebarExpanded={isSidebarExpanded} />} />
+
+          {/*rutas estudiante*/}
+          <Route path="/LoginEstudiante" element={<LoginEst />} />           
+          <Route path="/MainEstudiante" element={<MainEst isSidebarExpanded={isSidebarExpanded} />} />           
+          <Route path="/CursoE/:id_curso" element={<CursoDetalleEst isSidebarExpanded={isSidebarExpanded} />} />
           <Route path="/Publicacion/:id_publicacion" element={<Publicacion />} />
           <Route path="/Perfil/" element={<Perfil  />} />
+
+          {/*rutas profesor*/}
+          <Route path="/LoginProfesor" element={<LoginProf />} /> 
+          <Route path="/MainProfesor" element={<MainProf isSidebarExpanded={isSidebarExpanded}/>} />           
+          <Route path="/CursoP/:id_curso" element={<CursoDetalleProf isSidebarExpanded={isSidebarExpanded} />} />
+          <Route path="/CursosP/:id_curso/Add" element={<AgregarEstudiante />} />
         </Routes>
       </Router>
     </div>

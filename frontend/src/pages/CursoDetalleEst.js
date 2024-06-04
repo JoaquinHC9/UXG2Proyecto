@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/CursoDetalle.css';
+import '../styles/CursoDetalleEst.css';
 import { API_URL } from "../config/config";
 import moment from 'moment';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import DescriptionIcon from '@mui/icons-material/Description';
 import Button from '@mui/material/Button';
 
-export default function CursoDetalle() {
+export default function CursoDetalleEst() {
     const { id_curso } = useParams();
     const [curso, setCurso] = useState({});
     const [temas, setTemas] = useState([]);

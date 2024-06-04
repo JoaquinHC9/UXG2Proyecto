@@ -63,7 +63,7 @@ export default function MainEstudiante({ isSidebarExpanded }) {
                             <p>{curso.descripcion}</p>
                             <p>Sección: {curso.seccion}</p>
                             <p>Horario: {curso.horario}</p>
-                            <Link to={`/Curso/${curso.id_curso}`}>Ir al curso</Link>
+                            <Link to={`/CursoE/${curso.id_curso}`}>Ir al curso</Link>
                         </div>
                     ))}
                 </div>
