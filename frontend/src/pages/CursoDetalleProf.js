@@ -16,7 +16,7 @@ export default function CursoDetalleProf() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState('');
-    const [newTema, setNewTema] = useState({ nombre: '', descripcion: '' });
+    const [newTema, setNewTema] = useState({ nombre: '' });
     const [newPublicacion, setNewPublicacion] = useState({ 
         titulo: '', 
         contenido: '', 
@@ -108,7 +108,7 @@ export default function CursoDetalleProf() {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        setNewTema({ nombre: '', descripcion: '' });
+        setNewTema({ nombre: ''});
         setNewPublicacion({ titulo: '', contenido: '', tipo_publicacion: '' });
     };
 
@@ -238,35 +238,55 @@ export default function CursoDetalleProf() {
                                     onChange={handleChange}
                                     fullWidth
                                     required
-                                />
-                                <TextField
-                                    name="descripcion"
-                                    label="Descripción"
-                                    value={newTema.descripcion}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    required
-                                />
+                                />                                
                             </>
                         ) : (
                             <>
-                                <TextField
-                                    name="titulo"
-                                    label="Título"
-                                    value={newPublicacion.titulo}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    required
-                                />
-                                <TextField
-                                    name="contenido"
-                                    label="Contenido"
-                                    value={newPublicacion.contenido}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    required
-                                />
-                            </>
+                                    <TextField
+                                        name="titulo"
+                                        label="Título"
+                                        value={newPublicacion.titulo}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        required
+                                    />
+                                    <TextField
+                                        name="contenido"
+                                        label="Contenido"
+                                        value={newPublicacion.contenido}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        required
+                                    />
+                                    <TextField
+                                        name="url_profesor"
+                                        label="URL del profesor"
+                                        value={newPublicacion.url_profesor}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        required
+                                    />
+                                    <TextField
+                                        select
+                                        name="id_tema"
+                                        label="Tema"
+                                        value={selectedTema} // Cambiar esto
+                                        onChange={(e) => {
+                                            const selectedTemaId = e.target.value; // Guardar el ID del tema seleccionado
+                                            const selectedTemaNombre = temas.find((tema) => tema.id_tema === selectedTemaId).nombre; // Obtener el nombre del tema seleccionado
+                                            console.log("Nuevo tema seleccionado:", selectedTemaNombre); // Mostrar el nombre del tema seleccionado en la consola
+                                            setSelectedTema(selectedTemaId); // Actualizar el estado con el ID del tema
+                                        }}
+                                        fullWidth
+                                        required
+                                    >
+                                        {temas.map((tema) => (
+                                            <MenuItem key={tema.id_tema} value={tema.id_tema}>
+                                                {tema.nombre} {/* Asegúrate de que se muestre el nombre del tema */}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                </>
                         )}
                         <Button type="submit" variant="contained" color="primary">
                             Agregar
