@@ -61,9 +61,11 @@ export default function LoginProfesor() {
                   placeholder="Digita tu contraseña"
                 />         
               <button className="button-login">Iniciar Sesión</button>              
-              <p>¿Todavía no tienes una cuenta? Regístrate aquí</p>                            
-              <button className="button-register">Registro</button>              
+              <p>¿Todavía no tienes una cuenta? Regístrate aquí</p>                                                  
               {error && <p className="text-danger">{error}</p>}
+              <Link to="/Registro" >
+                  <button className="button-register">Registro</button>
+              </Link>
           </form>
         </div>
       </main>
