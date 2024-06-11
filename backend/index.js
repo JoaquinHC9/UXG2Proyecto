@@ -14,18 +14,22 @@ require('./src/models/Estudiante');
 require('./src/models/Curso');
 require('./src/models/EstudianteCurso');
 require('./src/models/Relations'); 
+require('./src/models/Tarea');
+require('./src/models/EstudianteTarea');
 
 const estRoutes = require('./src/routes/estRoutes');
 const profRoutes = require('./src/routes/profRoutes');
 const estCursoRoutes = require('./src/routes/estCursoRoutes');
 const cursoRoutes = require('./src/routes/cursoRoutes');
 const publiRoutes = require('./src/routes/publiRoutes');
+const tareasRoutes = require('./src/routes/tareaRoutes');
 
 app.use('/estudiantes', estRoutes);
 app.use('/profesores', profRoutes);
 app.use('/cursos', cursoRoutes);
 app.use('/estCurso', estCursoRoutes);
-app.use('/publicaciones',publiRoutes);
+app.use('/publicaciones', publiRoutes);
+app.use('/tareas',tareasRoutes);
 
 const port = process.env.PORT;
 

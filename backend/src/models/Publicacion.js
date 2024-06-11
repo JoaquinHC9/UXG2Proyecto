@@ -23,19 +23,14 @@ Publicacion.init({
   url_profesor: {
     type: DataTypes.STRING,
     allowNull: true
-  },
-  url_alumno: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  completado: {
-    type: DataTypes.CHAR(1),
-    allowNull: false,
-    defaultValue: 'N'
-  },
+  },  
   tipo_publicacion: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  comentario: {
+    type: DataTypes.TEXT,
+    allowNull: true
   },
 }, {
     sequelize,

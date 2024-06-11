@@ -4,10 +4,10 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "IHC Proyecto_01",
+      title: "UX Proyecto_01",
       version: "1.0.0",
       description:
-        "API de administración de datos personales, notas y reclamos del curso de IHC",
+        "API de administración de cursos y notas del curso de UX",
     },
   },
   apis: ["src/routes/*.js"],

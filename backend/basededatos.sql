@@ -1,85 +1,97 @@
 -- Tabla Estudiante
 CREATE TABLE estudiante (
-  estudiante_dni VARCHAR(8) PRIMARY KEY,
-  nombre VARCHAR(25),
-  apellido_pat VARCHAR(25),
-  apellido_mat VARCHAR(25),
-  fecha_nacimiento DATE,
-  telefono VARCHAR(9),
-  email VARCHAR(50) UNIQUE NOT NULL,
-  contra VARCHAR(128)
+    estudiante_dni VARCHAR(8) PRIMARY KEY,
+    nombre VARCHAR(25),
+    apellido_pat VARCHAR(25),
+    apellido_mat VARCHAR(25),
+    fecha_nacimiento DATE,
+    telefono VARCHAR(9),
+    email VARCHAR(50) UNIQUE NOT NULL,
+    contra VARCHAR(128)
 );
-
 
 -- Tabla Curso
 CREATE TABLE curso (
-  id_curso SERIAL PRIMARY KEY,
-  nombre VARCHAR(50) NOT NULL,
-  descripcion VARCHAR(255),
-  seccion VARCHAR(1),
-  horario VARCHAR(50)
+    id_curso SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(255),
+    seccion VARCHAR(1),
+    horario VARCHAR(50)
 );
 
-CREATE TABLE Tema (
-  id_tema SERIAL PRIMARY KEY,
-  nombre VARCHAR(100) NOT NULL
-);
-CREATE TABLE CursoTema (
-  id_curso_tema SERIAL PRIMARY KEY,
-  id_curso INT REFERENCES Curso(id_curso),
-  id_tema INT REFERENCES Tema(id_tema)
+-- Tabla Tema
+CREATE TABLE tema (
+    id_tema SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
 );
 
+-- Tabla CursoTema
+CREATE TABLE cursotema (
+    id_curso_tema SERIAL PRIMARY KEY,
+    id_curso INT REFERENCES curso(id_curso),
+    id_tema INT REFERENCES tema(id_tema)
+);
 
--- Tabla Estudiante_Curso
+-- Tabla EstudianteCurso
 CREATE TABLE estudiantecurso (
-  id_est_curso SERIAL PRIMARY KEY,
-  estudiante_dni VARCHAR(8) REFERENCES estudiante(estudiante_dni),
-  id_curso INT REFERENCES curso(id_curso)
+    id_est_curso SERIAL PRIMARY KEY,
+    estudiante_dni VARCHAR(8) REFERENCES estudiante(estudiante_dni),
+    id_curso INT REFERENCES curso(id_curso)
 );
 
 -- Tabla Profesor
 CREATE TABLE profesor (
-  profesor_dni VARCHAR(8) PRIMARY KEY,
-  nombre VARCHAR(25),
-  apellido_pat VARCHAR(25),
-  apellido_mat VARCHAR(25),
-  fecha_nacimiento DATE,
-  telefono VARCHAR(9),
-  email VARCHAR(50) UNIQUE NOT NULL,
-  contra VARCHAR(128)
+    profesor_dni VARCHAR(8) PRIMARY KEY,
+    nombre VARCHAR(25),
+    apellido_pat VARCHAR(25),
+    apellido_mat VARCHAR(25),
+    fecha_nacimiento DATE,
+    telefono VARCHAR(9),
+    email VARCHAR(50) UNIQUE NOT NULL,
+    contra VARCHAR(128)
 );
 
--- Tabla cursorofesor
+-- Tabla CursoProfesor
 CREATE TABLE cursoprofesor (
-  id_curso_profesor SERIAL PRIMARY KEY,
-  profesor_dni VARCHAR(8) REFERENCES profesor(profesor_dni),
-  id_curso INT REFERENCES curso(id_curso)
+    id_curso_profesor SERIAL PRIMARY KEY,
+    profesor_dni VARCHAR(8) REFERENCES profesor(profesor_dni),
+    id_curso INT REFERENCES curso(id_curso)
 );
 
-
--- Tabla Evaluacion
-CREATE TABLE evaluacion (
-    id_evaluacion INT PRIMARY KEY,
-    nombre VARCHAR(50),
-    descripcion VARCHAR(25),
-    fecha_lim DATE,
-    puntos_max VARCHAR(50),
-    id_publicacion INT REFERENCES publicacion(id_publicacion)
+-- Tabla Publicacion (superclase)
+CREATE TABLE publicacion (
+    id_publicacion SERIAL PRIMARY KEY,
+    titulo VARCHAR(100) NOT NULL,
+    contenido TEXT,
+    fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    url_profesor VARCHAR(255),
+    tipo_publicacion VARCHAR(50), /* 'general', 'tarea', etc. */
+    id_tema INT NOT NULL,
+    comentario TEXT,
+    FOREIGN KEY (id_tema) REFERENCES tema(id_tema)
 );
 
--- Tabla Estudiante_Evaluacion
-CREATE TABLE estudianteevaluacion (
-    id_est_eva INT PRIMARY KEY,
-    id_est VARCHAR(8) REFERENCES estudiante(estudiante_dni),
-    id_eva INT REFERENCES evaluacion(id_evaluacion),
-    fecha_envio DATE,
+-- Tabla Tarea (especializacion de Publicacion)
+CREATE TABLE tarea (
+    id_tarea SERIAL PRIMARY KEY,
+    id_publicacion INT UNIQUE REFERENCES publicacion(id_publicacion),
+    fecha_lim DATE NOT NULL,
+    puntos_max INT NOT NULL,
+);
+
+-- Tabla EstudianteTarea
+CREATE TABLE estudiantetarea (
+    id_est_tarea SERIAL PRIMARY KEY,
+    estudiante_dni VARCHAR(8) REFERENCES estudiante(estudiante_dni),
+    id_tarea INT REFERENCES tarea(id_tarea),
+    url_entrega VARCHAR(255),
+    fecha_entrega TIMESTAMP, 
     calificacion INT,
-    comentario VARCHAR(100)
+    completado BOOLEAN
 );
 
 INSERT INTO estudiante (estudiante_dni, nombre, apellido_pat, apellido_mat, fecha_nacimiento, telefono, email, contra)
-VALUES ('72270862', 'Joaquin Enrique', 'Hidalgo', 'Cock', '1998-09-19', '932769482', 'joaquin.hidalgo@unmsm.edu.pe', 'hidalgo98');
+VALUES ('72270862', 'Joaquin Enrique', 'Hidalgo', 'Cock', '1998-09-19', '932769482', 'joaquin.hidalgo@unmsm.edu.pe', 'contra123');
 
 
 INSERT INTO curso (id_curso, nombre, descripcion, seccion, horario) VALUES
@@ -113,18 +125,6 @@ INSERT INTO CursoTema (id_curso, id_tema) VALUES
 (3, 6),
 (3, 7);
 
-CREATE TABLE Publicacion (
-  id_publicacion SERIAL PRIMARY KEY,
-  titulo VARCHAR(100) NOT NULL,
-  contenido TEXT,
-  fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  url_profesor VARCHAR(255),
-  url_alumno VARCHAR(255),  
-  tipo_publicacion VARCHAR(50),
-  completado CHAR(1) NOT NULL DEFAULT A, /*N no completado, C completado, A no aplicable*/
-  id_tema INT NOT NULL,  
-  FOREIGN KEY (id_tema) REFERENCES Tema(id_tema)
-);
 
 INSERT INTO Publicacion (titulo, contenido, fecha_publicacion, url_profesor, url_alumno, tipo_publicacion_id, completado,id_tema) 
 VALUES ('Introducción a la programación orientada a objetos', 'En esta publicación se introduce el concepto de programación orientada a objetos y sus fundamentos.', CURRENT_TIMESTAMP, 'https://drive.google.com/file/d/1bLKOlRKXk9G9j0HU6_ay29ZOY3O_ctww/preview', NULL, 4, 'A',1);
