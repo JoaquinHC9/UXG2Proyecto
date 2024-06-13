@@ -63,7 +63,7 @@ CREATE TABLE publicacion (
     id_publicacion SERIAL PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
     contenido TEXT,
-    fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_publicacion TIMESTAMP with time zone,
     url_profesor VARCHAR(255),
     tipo_publicacion VARCHAR(50), /* 'general', 'tarea', etc. */
     id_tema INT NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE publicacion (
 CREATE TABLE tarea (
     id_tarea SERIAL PRIMARY KEY,
     id_publicacion INT UNIQUE REFERENCES publicacion(id_publicacion),
-    fecha_lim DATE NOT NULL,
+    fecha_lim TIMESTAMP NOT NULL,
     puntos_max INT NOT NULL,
 );
 

@@ -2,9 +2,10 @@ const sequelize = require('../config/db');
 const Publicacion = require('../models/Publicacion');
 const Estudiante = require('../models/Estudiante');
 const EstudianteTarea = require('../models/EstudianteTarea');
+const EstudianteCurso = require('../models/EstudianteCurso');
 const Tarea = require('../models/Tarea');
 
-module.exports.tareaController = {
+module.exports.tareaController = { 
   getTareasPorTema: async (req, res) => {
     try {
       const { id_tema } = req.params;
@@ -114,6 +115,65 @@ module.exports.tareaController = {
       console.error('Error en el controlador:', error);
       res.status(500).json({ error: 'Error al calificar la tarea' });
     }
-  }
+  },
+  verificarTareaCompletada: async (req, res) => {
+    try {
+      const { id_tarea, estudiante_dni } = req.params;      
+      const tareaCompletada = await EstudianteTarea.findOne({
+        where: { id_tarea, estudiante_dni }
+      });
+      
+      if (tareaCompletada) {
+        res.json(tareaCompletada);
+      } else {
+        res.json({ completado: false });
+      }
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
+  },
+  obtenerEstudiantesPorTarea : async (req, res) => {
+    const { id_publicacion } = req.params;
+    try {        
+        const tarea = await Tarea.findOne({
+            where: { id_publicacion }
+        });
 
+        if (!tarea) {
+            return res.status(404).json({ error: 'Tarea no encontrada' });
+        }        
+        const estudiantesTarea = await EstudianteTarea.findAll({
+            where: { id_tarea: tarea.id_tarea },
+            include: [{
+                model: Estudiante,
+                attributes: ['estudiante_dni', 'nombre', 'apellido_pat', 'apellido_mat', 'email']
+            }]
+        });
+
+        res.status(200).json(estudiantesTarea);
+    } catch (error) {
+        console.error('Error en el controlador:', error);
+        return res.status(500).json({ error: 'Error al obtener los estudiantes de la tarea' });
+    }
+  },
+  obtenerDetallesTarea: async (req, res) => {
+    try {
+      const { id_publicacion, id_est_tarea } = req.params;      
+      const tareaEntregada = await EstudianteTarea.findByPk(id_est_tarea, {
+        include: {
+          model: Tarea,
+          where: { id_publicacion }
+        }
+      });
+
+      if (!tareaEntregada) {
+        return res.status(404).json({ error: 'No se encontró la tarea entregada' });
+      }      
+      res.json(tareaEntregada);
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
+  },
 };

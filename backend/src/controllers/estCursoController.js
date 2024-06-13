@@ -27,8 +27,7 @@ module.exports.estCursoController = {
     },
     obtenerEstudiantesPorCurso: async (req,res)=>{
         const { id_curso } = req.params;
-        try {
-            // Buscar estudiantes asociados al curso
+        try {            
             const estudiantes = await EstudianteCurso.findAll({
             where: { id_curso },
             include: [{ model: Estudiante,

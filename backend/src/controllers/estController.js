@@ -136,5 +136,18 @@ module.exports.estController = {
       console.error('Error en el controlador:', error);
       res.status(500).json({ error: 'Error en el servidor' });
     }
+  },
+  getDniByCorreo: async (req, res) => {
+    try {
+      const { email } = req.params;      
+      const estudiante = await Estudiante.findOne({ where: { email } });
+      if (!estudiante) {
+        return res.status(404).json({ error: 'Estudiante no encontrado' });
+      }
+      res.json({ dni: estudiante.estudiante_dni });
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
   }
 };

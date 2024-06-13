@@ -1,0 +1,74 @@
+.TareaDetalleContainer {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 1000px;
+    height: 800px;
+    margin-left: 250px;
+}
+
+.TareaDetalleContent {
+    margin-top: 20px;
+}
+
+.TareaIframe {
+    width: 100%;
+    height: 700px;
+    border: 1px solid black;    
+}
+
+.CalificacionContainer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.CalificacionInput {
+    width: 150px;
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.CalificarButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.CalificarButton:hover {
+    background-color: #0056b3;
+}
+
+.fileContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.CalificacionColocada {
+    margin-top: 10px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+.CalificacionColocadaItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.CalificacionColocadaItem h3 {    
+    color: #333;
+}

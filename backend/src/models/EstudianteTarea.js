@@ -11,14 +11,14 @@ EstudianteTarea.init({
   estudiante_dni: {
     type: DataTypes.STRING(8),
     references: {
-      model: 'estudiante',
+      model: 'Estudiante',
       key: 'estudiante_dni'
     }
   },
   id_tarea: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'tarea',
+      model: 'Tarea',
       key: 'id_tarea'
     }
   },
@@ -40,7 +40,7 @@ EstudianteTarea.init({
   }
 }, {
   sequelize,
-  modelName: "estudiantetarea",
+  modelName: "Estudiantetarea",
   freezeTableName: true,
   timestamps: false
 });

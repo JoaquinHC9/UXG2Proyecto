@@ -5,6 +5,8 @@ import { API_URL } from "../config/config";
 import moment from 'moment';
 import { Button, Modal, TextField, Box, Menu, MenuItem } from '@mui/material';
 import '../styles/CursoDetalleProf.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function CursoDetalleProf() {
     const { id_curso } = useParams();
@@ -22,7 +24,9 @@ export default function CursoDetalleProf() {
         contenido: '', 
         url_profesor: '', 
         completado: '', 
-        tipo_publicacion: ''
+        tipo_publicacion: '',
+        fecha_lim: '',
+        puntos_max: ''
     });
 
     const [selectedTema, setSelectedTema] = useState(null);
@@ -109,48 +113,79 @@ export default function CursoDetalleProf() {
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setNewTema({ nombre: ''});
-        setNewPublicacion({ titulo: '', contenido: '', tipo_publicacion: '' });
+        setNewPublicacion({ titulo: '', contenido: '', tipo_publicacion: '', fecha_lim: '', puntos_max: '' });
     };
 
-    const handleChange = (e) => {
+    const handleChangeTema = (e) => {
         const { name, value } = e.target;
-        if (modalType === 'tema') {
-            setNewTema(prevState => ({ ...prevState, [name]: value }));
-        } else {
-            setNewPublicacion(prevState => ({ ...prevState, [name]: value }));
-        }
+        setNewTema(prevState => ({ ...prevState, [name]: value }));
     };
+    
+    const handleChangePublicacion = (e) => {
+        const { name, value } = e.target;
+        setNewPublicacion(prevState => ({ ...prevState, [name]: value }));
+    };
+    
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {            
-            if (modalType === 'tema') {
-                const response = await axios.post(`${API_URL}/cursos/agregarTema/${id_curso}`, {
-                    ...newTema,
-                    id_curso: id_curso
-                });                
-                const temasResponse = await axios.get(`${API_URL}/cursos/${id_curso}/temas`);
-                setTemas(temasResponse.data);
-            } else {
-                let completadoValue = 'A';
-                if (modalType !== 'material') {
-                    completadoValue = 'N'; 
-                }
-                const response = await axios.post(`${API_URL}/publicaciones/agregar/${selectedTema}`, {
-                    ...newPublicacion,
-                    tipo_publicacion: modalType
-                });                
-                const publicacionesResponse = await axios.get(`${API_URL}/publicaciones/tema/${selectedTema}`);
-                setPublicacionesPorTema(prevPublicaciones => ({
-                    ...prevPublicaciones,
-                    [selectedTema]: publicacionesResponse.data
-                }));
-            }
+    const handleSubmitTema = async () => {
+        try {
+            const response = await axios.post(`${API_URL}/cursos/agregarTema/${id_curso}`, {
+                ...newTema,
+                id_curso: id_curso
+            });
+            const temasResponse = await axios.get(`${API_URL}/cursos/${id_curso}/temas`);
+            setTemas(temasResponse.data);
             handleCloseModal();
         } catch (error) {
-            console.error('Error al crear', error);
+            console.error('Error al crear tema', error);
         }
     };
+    
+    const handleSubmitMaterial = async () => {
+        try {
+            const response = await axios.post(`${API_URL}/publicaciones/agregar/${selectedTema}`, {
+                ...newPublicacion,
+                tipo_publicacion: modalType
+            });
+            const publicacionesResponse = await axios.get(`${API_URL}/publicaciones/tema/${selectedTema}`);
+            setPublicacionesPorTema(prevPublicaciones => ({
+                ...prevPublicaciones,
+                [selectedTema]: publicacionesResponse.data
+            }));
+            handleCloseModal();
+        } catch (error) {
+            console.error('Error al crear material', error);
+        }
+    };
+    
+    const handleSubmitTarea = async () => {
+        try {
+            console.log("Nueva publicación:", newPublicacion); // Agregar este console.log para depurar
+            const response = await axios.post(`${API_URL}/publicaciones/agregarTarea/${selectedTema}`, {
+                ...newPublicacion,
+                tipo_publicacion: modalType
+            });
+            const publicacionesResponse = await axios.get(`${API_URL}/publicaciones/tema/${selectedTema}`);
+            setPublicacionesPorTema(prevPublicaciones => ({
+                ...prevPublicaciones,
+                [selectedTema]: publicacionesResponse.data
+            }));
+            handleCloseModal();
+        } catch (error) {
+            console.error('Error al crear tarea', error);
+        }
+    };
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (modalType === 'Tema') {
+            handleSubmitTema();
+        } else if (modalType === 'Material') {
+            handleSubmitMaterial();
+        } else {
+            handleSubmitTarea();
+        }
+    };    
 
     const handleAddStudent = () => {
         navigate(`/CursosP/${id_curso}/Add`);
@@ -173,10 +208,10 @@ export default function CursoDetalleProf() {
                         open={Boolean(anchorEl)}
                         onClose={handleCloseMenu}
                     >
-                        <MenuItem onClick={() => handleOpenModal('tema')}>Tema</MenuItem>
-                        <MenuItem onClick={() => handleOpenModal('material')}>Material</MenuItem>
-                        <MenuItem onClick={() => handleOpenModal('pregunta')}>Pregunta</MenuItem>
-                        <MenuItem onClick={() => handleOpenModal('tarea')}>Tarea</MenuItem>
+                        <MenuItem onClick={() => handleOpenModal('Tema')}>Tema</MenuItem>
+                        <MenuItem onClick={() => handleOpenModal('Material')}>Material</MenuItem>
+                        <MenuItem onClick={() => handleOpenModal('Pregunta')}>Pregunta</MenuItem>
+                        <MenuItem onClick={() => handleOpenModal('Tarea')}>Tarea</MenuItem>
                     </Menu>
                 </div>
                 {isLoading ? (
@@ -202,12 +237,22 @@ export default function CursoDetalleProf() {
                                                 {expandedItems[tema.id_tema] === idx && (
                                                     <div className="prof-publicacion-contenido">
                                                         <p>{pub.contenido}</p>
-                                                        <Button variant="contained" onClick={() => handleMaterialPreview(pub.id_publicacion)}>
+                                                        {pub.tipo_publicacion === 'Material' && (
+                                                        <Button 
+                                                            variant="contained" 
+                                                            onClick={() => handleMaterialPreview(pub.id_publicacion, pub.tipo_publicacion)}
+                                                        >
                                                             Ver Material
                                                         </Button>
-                                                        <Button variant="contained" color='secondary'>
-                                                            Ver Entregas
-                                                        </Button>                                           
+                                                        )}
+                                                        {pub.tipo_publicacion === 'Tarea' && (
+                                                            <Button 
+                                                                variant="contained" 
+                                                                onClick={() => navigate(`/cursoP/${id_curso}/actividad/${pub.id_publicacion}`)}
+                                                            >
+                                                                Ver Instrucciones
+                                                            </Button>
+                                                        )}                                                                                              
                                                     </div>
                                                 )}
                                             </div>
@@ -216,77 +261,100 @@ export default function CursoDetalleProf() {
                             </div>
                         ))}
                     </div>
-                )}                
+                )}
             </div>
-            <Modal
-                open={isModalOpen}
-                onClose={handleCloseModal}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box className="modal-box">
-                    <h2 id="modal-modal-title">
-                        {modalType === 'tema' ? 'Agregar Tema' : 'Agregar Publicación'}
-                    </h2>
+
+            <Modal open={isModalOpen} onClose={handleCloseModal}>
+                <Box className="prof-modal-box">
+                    <h2>Agregar {modalType}</h2>
                     <form onSubmit={handleSubmit}>
-                        {modalType === 'tema' ? (
+                        {modalType === 'Tema' ? (
                             <>
                                 <TextField
-                                    name="nombre"
-                                    label="Nombre"
-                                    value={newTema.nombre}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    required
-                                />                                
+                                name="nombre"
+                                label="Nombre"
+                                value={newTema.nombre}
+                                onChange={handleChangeTema}
+                                fullWidth
+                                required
+                                readOnly={false}
+                            />
+                             
                             </>
                         ) : (
                             <>
-                                    <TextField
-                                        name="titulo"
-                                        label="Título"
-                                        value={newPublicacion.titulo}
-                                        onChange={handleChange}
-                                        fullWidth
-                                        required
-                                    />
-                                    <TextField
-                                        name="contenido"
-                                        label="Contenido"
-                                        value={newPublicacion.contenido}
-                                        onChange={handleChange}
-                                        fullWidth
-                                        required
-                                    />
-                                    <TextField
-                                        name="url_profesor"
-                                        label="URL del profesor"
-                                        value={newPublicacion.url_profesor}
-                                        onChange={handleChange}
-                                        fullWidth
-                                        required
-                                    />
-                                    <TextField
-                                        select
-                                        name="id_tema"
-                                        label="Tema"
-                                        value={selectedTema} // Cambiar esto
-                                        onChange={(e) => {
-                                            const selectedTemaId = e.target.value; // Guardar el ID del tema seleccionado
-                                            const selectedTemaNombre = temas.find((tema) => tema.id_tema === selectedTemaId).nombre; // Obtener el nombre del tema seleccionado
-                                            console.log("Nuevo tema seleccionado:", selectedTemaNombre); // Mostrar el nombre del tema seleccionado en la consola
-                                            setSelectedTema(selectedTemaId); // Actualizar el estado con el ID del tema
-                                        }}
-                                        fullWidth
-                                        required
-                                    >
-                                        {temas.map((tema) => (
-                                            <MenuItem key={tema.id_tema} value={tema.id_tema}>
-                                                {tema.nombre} {/* Asegúrate de que se muestre el nombre del tema */}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </>
+                                <TextField
+                                    name="titulo"
+                                    label="Título"
+                                    value={newPublicacion.titulo}
+                                    onChange={handleChangePublicacion}
+                                    fullWidth
+                                    required
+                                />
+                                <TextField
+                                    name="contenido"
+                                    label="Contenido"
+                                    value={newPublicacion.contenido}
+                                    onChange={handleChangePublicacion}
+                                    fullWidth
+                                    required
+                                />
+                                <TextField
+                                    name="url_profesor"
+                                    label="URL del profesor"
+                                    value={newPublicacion.url_profesor}
+                                    onChange={handleChangePublicacion}
+                                    fullWidth
+                                    required
+                                />
+                                <TextField
+                                    select
+                                    name="id_tema"
+                                    label="Tema"
+                                    value={selectedTema}
+                                    onChange={(e) => {
+                                        const selectedTemaId = e.target.value;
+                                        const selectedTemaNombre = temas.find((tema) => tema.id_tema === selectedTemaId).nombre;
+                                        setSelectedTema(selectedTemaId);
+                                    }}
+                                    fullWidth
+                                    required
+                                >
+                                    {temas.map((tema) => (
+                                        <MenuItem key={tema.id_tema} value={tema.id_tema}>
+                                            {tema.nombre}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                                {modalType !== 'Material' && (
+                                    <>
+                                        <DatePicker
+                                                selected={newPublicacion.fecha_lim ? new Date(newPublicacion.fecha_lim) : null}
+                                                onChange={date => {
+                                                    setNewPublicacion(prevState => ({
+                                                        ...prevState,
+                                                        fecha_lim: date ? date.toISOString() : null // Convertir la fecha a formato ISO8601 si es válida
+                                                    }));
+                                                }}
+                                                showTimeSelect
+                                                timeFormat="HH:mm"
+                                                timeIntervals={15}
+                                                dateFormat="yyyy-MM-dd HH:mm"
+                                                timeCaption="Hora"
+                                                placeholderText="Selecciona fecha y hora"
+                                            />
+                                        <TextField
+                                            name="puntos_max"
+                                            label="Puntos Máximos"
+                                            type="number"
+                                            value={newPublicacion.puntos_max}
+                                            onChange={handleChangePublicacion}
+                                            fullWidth
+                                            required
+                                        />
+                                    </>
+                                )}
+                            </>
                         )}
                         <Button type="submit" variant="contained" color="primary">
                             Agregar

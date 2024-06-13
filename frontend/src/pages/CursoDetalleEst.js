@@ -47,7 +47,7 @@ export default function CursoDetalleEst() {
                 const publicacionesPorTemaTemp = {};
                 for (const tema of temas) {
                     const response = await axios.get(`${API_URL}/publicaciones/tema/${tema.id_tema}`);                   
-                    publicacionesPorTemaTemp[tema.id_tema] = response.data;
+                    publicacionesPorTemaTemp[tema.id_tema] = response.data;                    
                 }
                 setPublicacionesPorTema(publicacionesPorTemaTemp);                
             } catch (error) {
@@ -67,10 +67,13 @@ export default function CursoDetalleEst() {
         return moment(timestampString).format('DD/MM/YY');
     };
 
-    const handleMaterialPreview = (id_publicacion) => {        
-        navigate(`/Publicacion/${id_publicacion}`);
+    const handleMaterialPreview = (id_publicacion, tipo_publicacion) => {
+        if (tipo_publicacion === 'tarea') {
+            navigate(`/instrucciones/${id_publicacion}`);
+        } else {
+            navigate(`/Publicacion/${id_publicacion}`);
+        }
     };
-    
     
     return (
         <div className="curso-detalle-principal">
@@ -103,11 +106,23 @@ export default function CursoDetalleEst() {
                                             </div>
                                             {expandedItem === idx && (
                                                 <div className="publicacion-contenido">
-                                                    <p>{pub.contenido}</p>                                                    
-                                                    <Button variant="contained" onClick={() => handleMaterialPreview(pub.id_publicacion)}>
+                                                    <p>{pub.contenido}</p>
+                                                    {pub.tipo_publicacion === 'Material' && (
+                                                    <Button 
+                                                        variant="contained" 
+                                                        onClick={() => handleMaterialPreview(pub.id_publicacion, pub.tipo_publicacion)}
+                                                    >
                                                         Ver Material
                                                     </Button>
-                                                    {pub.completado !== 'A' && <p>Alumno: {pub.url_alumno}</p>}
+                                                    )}
+                                                    {pub.tipo_publicacion === 'Tarea' && (
+                                                        <Button 
+                                                            variant="contained" 
+                                                            onClick={() => navigate(`/instrucciones/${pub.id_publicacion}`)}
+                                                        >
+                                                            Ver Instrucciones
+                                                        </Button>
+                                                    )}
                                                 </div>
                                             )}
                                         </div>

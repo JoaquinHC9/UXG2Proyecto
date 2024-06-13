@@ -1,4 +1,3 @@
-//relation.js
 const Curso = require('./Curso');
 const CursoTema = require('./CursoTema');
 const Estudiante = require('./Estudiante');
@@ -67,11 +66,17 @@ Tarea.belongsToMany(Estudiante,{
   otherKey: 'estudiante_dni'
 })
 
+EstudianteTarea.belongsTo(Estudiante, { foreignKey: 'estudiante_dni' });
+EstudianteTarea.belongsTo(Tarea, { foreignKey: 'id_tarea' });
+
 Estudiante.belongsToMany(Tarea, {
   through: { model: EstudianteTarea }, 
   foreignKey: 'estudiante_dni',
   otherKey: 'id_tarea', 
 });
+Tarea.belongsToMany(Estudiante, { 
+  through: { model: EstudianteTarea}, 
+  foreignKey: 'id_tarea',
+  otherKey: 'estudiante_dni'
+});
 
-Tarea.hasMany(EstudianteTarea, { foreignKey: 'id_tarea' });
-EstudianteTarea.belongsTo(Tarea, { foreignKey: 'id_tarea' });

@@ -67,7 +67,7 @@ module.exports.publiController = {
     const { id_tema } = req.params;
     const {
       titulo,
-      descripcion,
+      contenido,
       fecha_lim,
       puntos_max,
       url_profesor,
@@ -79,7 +79,7 @@ module.exports.publiController = {
     try {
       const nuevaPublicacion = await Publicacion.create({
         titulo,
-        contenido: descripcion,
+        contenido,
         fecha_publicacion: new Date(),
         url_profesor,
         tipo_publicacion,
@@ -104,5 +104,25 @@ module.exports.publiController = {
       return res.status(500).json({ error: 'Error al crear la tarea' });
     }
   },
-  
+  getPublicacionConTarea: async (req, res) => {
+    try {
+      const { id_publicacion } = req.params;
+      const publicacionConTarea = await Publicacion.findOne({
+        where: { id_publicacion },
+        include: {
+          model: Tarea,
+          required: true // Esto asegura que solo se devuelvan las publicaciones que tienen una tarea asociada
+        }
+      });
+
+      if (!publicacionConTarea) {
+        return res.status(404).json({ error: 'Publicación no encontrada' });
+      }
+
+      res.json(publicacionConTarea);
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error al obtener la publicación' });
+    }
+  }
 };

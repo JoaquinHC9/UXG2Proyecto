@@ -1,0 +1,73 @@
+.ActividadesContainer {
+    margin: 20px;
+}
+
+.TareaDetalle {
+    background-color: #f1f3f4;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.TareaDetalle h2 {
+    margin-top: 0;
+}
+
+.EstudiantesTarea {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.EstudiantesTarea h2 {
+    margin-top: 0;
+}
+
+.EstudianteLista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.EstudianteItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fafafa;
+    transition: background-color 0.3s ease;
+}
+
+.EstudianteItem:hover {
+    background-color: #e8f0fe;
+}
+
+.EstudianteInfo {
+    flex-grow: 1; 
+    margin-right: 10px;
+}
+
+.estado {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.estado.completado {
+    color: #34a853;
+    background-color: #e6f4ea;
+}
+
+.estado.no-completado {
+    color: #ea4335;
+    background-color: #fce8e6;
+}
+
+.estado button {
+    margin-left: 10px; 
+}
+.disabledButton {
+    background-color: #aaa !important;
+    cursor: not-allowed;
+}
