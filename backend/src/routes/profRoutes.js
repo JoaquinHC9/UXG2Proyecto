@@ -7,5 +7,5 @@ router.get("/:email", profController.getProfesor);
 router.post("/login", profController.login);
 router.post("/register", profController.createProfesor);
 router.get("/cursos/:profesor_dni", profController.getCursosByProfesor);
-
+router.put('/actualizar/:email',profController.updateProfesor);
 module.exports = router;

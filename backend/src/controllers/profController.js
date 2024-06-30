@@ -92,5 +92,33 @@ module.exports.profController = {
       console.error('Error en el controlador:', error);
       res.status(500).json({ error: 'Error en el servidor' });
     }
-  }
+  },
+  updateProfesor: async (req, res) => {
+    try {
+      const correo = req.params.email;
+      const {
+        nombre,
+        apellido_pat,
+        apellido_mat,
+        fecha_nacimiento,
+        telefono
+      } = req.body;
+      
+      const profesor = await Profesor.findOne({ where: { email: correo } });
+      if (!profesor) {
+        return res.status(404).json({ error: 'Profesor no encontrado' });
+      }      
+      profesor.nombre = nombre;
+      profesor.apellido_pat = apellido_pat;
+      profesor.apellido_mat = apellido_mat;
+      profesor.fecha_nacimiento = fecha_nacimiento;
+      profesor.telefono = telefono;      
+      await profesor.save();
+
+      res.json({ success: true, msg: 'Datos de profesor actualizados correctamente' });
+    } catch (error) {
+      console.error('Error en el controlador:', error);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
+  },
 };

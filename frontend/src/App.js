@@ -5,7 +5,8 @@ import Sidebar from "./components/Sidebar";
 
 //paginas
 import Portal from "./pages/Portal.js";
-import Perfil from "./pages/Perfil.js"
+import PerfilEstudiante from "./pages/PerfilEstudiante.js"
+import PerfilProfesor from "./pages/PerfilProfesor.js"
 import Registro from "./pages/Registro.js";
 //pagina est
 import Publicacion from './pages/Publicacion';
@@ -50,7 +51,8 @@ function App() {
           <Route path="/CursoE/:id_curso" element={<CursoDetalleEst isSidebarExpanded={isSidebarExpanded} />} />
           <Route path="/Publicacion/:id_publicacion" element={<Publicacion />} />
           <Route path="/Instrucciones/:id_publicacion" element={<Instrucciones />} />
-          <Route path="/Perfil/" element={<Perfil  />} />
+          <Route path="/PerfilE/" element={<PerfilEstudiante  />} />
+          <Route path="/PerfilP/" element={<PerfilProfesor  />} />
 
           {/*rutas profesor*/}
           <Route path="/LoginProfesor" element={<LoginProf />} /> 
