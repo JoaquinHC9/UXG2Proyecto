@@ -121,4 +121,24 @@ module.exports.profController = {
       res.status(500).json({ error: 'Error en el servidor' });
     }
   },
+  updateContra: async (req, res) => {
+    try {
+      const { email } = req.params;
+      const { contra } = req.body;
+
+      const profesor = await Profesor.findOne({ where: { email } });
+      if (!profesor) {
+          return res.status(404).json({ error: 'Profesor no encontrado' });
+      }
+
+      // Actualizar la contraseña
+      profesor.contra = contra;
+      await profesor.save();
+
+      res.json({ success: true, msg: 'Contraseña actualizada correctamente' });
+    } catch (error) {
+        console.error('Error en el controlador:', error);
+        res.status(500).json({ error: 'Error en el servidor' });
+    }
+  }
 };

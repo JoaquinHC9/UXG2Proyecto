@@ -149,5 +149,25 @@ module.exports.estController = {
       console.error('Error en el controlador:', error);
       res.status(500).json({ error: 'Error en el servidor' });
     }
+  },
+  updateContra: async (req, res) => {
+    try {
+      const { email } = req.params;
+      const { contra } = req.body;
+
+      const estudiante = await Estudiante.findOne({ where: { email } });
+      if (!estudiante) {
+          return res.status(404).json({ error: 'Estudiante no encontrado' });
+      }
+
+      // Actualizar la contraseña
+      estudiante.contra = contra;
+      await estudiante.save();
+
+      res.json({ success: true, msg: 'Contraseña actualizada correctamente' });
+    } catch (error) {
+        console.error('Error en el controlador:', error);
+        res.status(500).json({ error: 'Error en el servidor' });
+    }
   }
 };

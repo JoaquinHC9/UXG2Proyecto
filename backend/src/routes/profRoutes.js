@@ -8,4 +8,5 @@ router.post("/login", profController.login);
 router.post("/register", profController.createProfesor);
 router.get("/cursos/:profesor_dni", profController.getCursosByProfesor);
 router.put('/actualizar/:email',profController.updateProfesor);
+router.put('/actualizar-contra/:email',profController.updateContra);
 module.exports = router;
