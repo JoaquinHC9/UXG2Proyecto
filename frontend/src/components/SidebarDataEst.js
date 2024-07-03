@@ -5,11 +5,5 @@ export const SidebarDataEst = [
     title: 'Perfil',
     icon: <AccountCircleIcon />,
     link: '/PerfilE',
-  },  
-  {
-    title: 'Tareas',
-    icon: <LibraryBooksIcon />,
-    link: '/Tareas',
-  },
-  
+  }  
 ];

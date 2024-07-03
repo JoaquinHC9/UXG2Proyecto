@@ -96,16 +96,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
     background-color: white;
-    border: 2px solid #000;
-    box-shadow: 24px;
-    padding: 16px;
-    outline: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
   
 .prof-modal-box h2 {
     margin-top: 0;
@@ -123,4 +120,22 @@
   
 .prof-modal-box form .MuiButton-root {
     align-self: flex-end;
+}
+.prof-modal-content {
+    display: flex;
+    gap: 1rem;
+}
+
+.modal-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.date-picker {
+    margin-top: 16px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
 }

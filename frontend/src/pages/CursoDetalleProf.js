@@ -3,10 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from "../config/config";
 import moment from 'moment';
-import { Button, Modal, TextField, Box, Menu, MenuItem } from '@mui/material';
+import 'moment/locale/es';
 import '../styles/CursoDetalleProf.css';
-import DatePicker from "react-datepicker";
+import { Button, Modal, TextField, Box, Menu, MenuItem } from '@mui/material';
+import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import "react-datepicker/dist/react-datepicker.css";
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function CursoDetalleProf() {
     const { id_curso } = useParams();
@@ -69,6 +72,7 @@ export default function CursoDetalleProf() {
                 }
                 setPublicacionesPorTema(publicacionesPorTemaTemp);                
             } catch (error) {
+                toast.error('Error al obtener las Publicaciones', { containerId: 'error' });
                 console.error('Error al obtener las Publicaciones:', error);
             } finally {
                 setIsLoading(false);
@@ -132,11 +136,13 @@ export default function CursoDetalleProf() {
             const response = await axios.post(`${API_URL}/cursos/agregarTema/${id_curso}`, {
                 ...newTema,
                 id_curso: id_curso
-            });
+            });            
             const temasResponse = await axios.get(`${API_URL}/cursos/${id_curso}/temas`);
-            setTemas(temasResponse.data);
+            setTemas(temasResponse.data);            
             handleCloseModal();
+            toast.success('Tema creado exitosamente', { containerId: 'success' });
         } catch (error) {
+            toast.error('Error al crear el tema', { containerId: 'error' });
             console.error('Error al crear tema', error);
         }
     };
@@ -147,6 +153,7 @@ export default function CursoDetalleProf() {
                 ...newPublicacion,
                 tipo_publicacion: modalType
             });
+            toast.success('Material creado exitosamente', { containerId: 'success' });
             const publicacionesResponse = await axios.get(`${API_URL}/publicaciones/tema/${selectedTema}`);
             setPublicacionesPorTema(prevPublicaciones => ({
                 ...prevPublicaciones,
@@ -154,17 +161,18 @@ export default function CursoDetalleProf() {
             }));
             handleCloseModal();
         } catch (error) {
+            toast.error('Error el crear el material', { containerId: 'error' });
             console.error('Error al crear material', error);
         }
     };
     
     const handleSubmitTarea = async () => {
-        try {
-            console.log("Nueva publicación:", newPublicacion); // Agregar este console.log para depurar
+        try {            
             const response = await axios.post(`${API_URL}/publicaciones/agregarTarea/${selectedTema}`, {
                 ...newPublicacion,
-                tipo_publicacion: modalType
+                tipo_publicacion: modalType                
             });
+            toast.success('Tarea creada exitosamente', { containerId: 'success' });
             const publicacionesResponse = await axios.get(`${API_URL}/publicaciones/tema/${selectedTema}`);
             setPublicacionesPorTema(prevPublicaciones => ({
                 ...prevPublicaciones,
@@ -172,6 +180,7 @@ export default function CursoDetalleProf() {
             }));
             handleCloseModal();
         } catch (error) {
+            toast.error('Error al crear la tarea', { containerId: 'error' });
             console.error('Error al crear tarea', error);
         }
     };
@@ -191,8 +200,22 @@ export default function CursoDetalleProf() {
         navigate(`/CursosP/${id_curso}/Add`);
     };
 
-    return (
+    return (        
         <div className="prof-curso-detalle-principal">
+            <ToastContainer
+                position="bottom-center"
+                containerId="error"
+                autoClose={5000}                                                
+                pauseOnFocusLoss={false}
+                pauseOnHover={false}
+            />
+            <ToastContainer
+                position="top-center"
+                containerId="success"
+                autoClose={2000}                                                
+                pauseOnFocusLoss={false}
+                pauseOnHover={false}
+            />
             <div className="prof-curso-detalle-tareas">
                 <h3>Tareas</h3>
                 <Button variant="contained" onClick={handleOpenMenu}>Crear</Button>
@@ -231,7 +254,7 @@ export default function CursoDetalleProf() {
                                                 >
                                                     <div className="prof-publicacion-info">
                                                         <h4>{pub.titulo}</h4>
-                                                        <p>{formatFecha(pub.fecha_publicacion)}</p>
+                                                        <p>Fecha de Publicacion: {formatFecha(pub.fecha_publicacion)}</p>
                                                     </div>
                                                 </div>
                                                 {expandedItems[tema.id_tema] === idx && (
@@ -264,10 +287,11 @@ export default function CursoDetalleProf() {
                 )}
             </div>
 
-            <Modal open={isModalOpen} onClose={handleCloseModal}>
-                <Box className="prof-modal-box">
+            <Modal open={isModalOpen} onClose={handleCloseModal} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Box className="prof-modal-box" sx={{ width: '80vw', maxWidth: '1200px', height: '65vh', maxHeight: '80vh', overflowY: 'auto' }}>
                     <h2>Agregar {modalType}</h2>
                     <form onSubmit={handleSubmit}>
+                        <div className="prof-modal-content">
                         {modalType === 'Tema' ? (
                             <>
                                 <TextField
@@ -283,66 +307,57 @@ export default function CursoDetalleProf() {
                             </>
                         ) : (
                             <>
-                                <TextField
-                                    name="titulo"
-                                    label="Título"
-                                    value={newPublicacion.titulo}
-                                    onChange={handleChangePublicacion}
-                                    fullWidth
-                                    required
-                                />
-                                <TextField
-                                    name="contenido"
-                                    label="Contenido"
-                                    value={newPublicacion.contenido}
-                                    onChange={handleChangePublicacion}
-                                    fullWidth
-                                    required
-                                />
-                                <TextField
-                                    name="url_profesor"
-                                    label="URL del profesor"
-                                    value={newPublicacion.url_profesor}
-                                    onChange={handleChangePublicacion}
-                                    fullWidth
-                                    required
-                                />
-                                <TextField
-                                    select
-                                    name="id_tema"
-                                    label="Tema"
-                                    value={selectedTema}
-                                    onChange={(e) => {
-                                        const selectedTemaId = e.target.value;
-                                        const selectedTemaNombre = temas.find((tema) => tema.id_tema === selectedTemaId).nombre;
-                                        setSelectedTema(selectedTemaId);
-                                    }}
-                                    fullWidth
-                                    required
-                                >
-                                    {temas.map((tema) => (
-                                        <MenuItem key={tema.id_tema} value={tema.id_tema}>
-                                            {tema.nombre}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                <div className="modal-column">
+                                    <TextField
+                                        name="titulo"
+                                        label="Título"
+                                        value={newPublicacion.titulo}
+                                        onChange={handleChangePublicacion}
+                                        fullWidth
+                                        required
+                                    />                                    
+                                    <TextField
+                                        name="url_profesor"
+                                        label="URL del profesor"
+                                        value={newPublicacion.url_profesor}
+                                        onChange={handleChangePublicacion}
+                                        fullWidth
+                                        required
+                                    />
+                                    <TextField
+                                        select
+                                        name="id_tema"
+                                        label="Tema"
+                                        value={selectedTema}
+                                        onChange={(e) => {
+                                            const selectedTemaId = e.target.value;
+                                            const selectedTemaNombre = temas.find((tema) => tema.id_tema === selectedTemaId).nombre;
+                                            setSelectedTema(selectedTemaId);
+                                        }}
+                                        fullWidth
+                                        required
+                                    >
+                                        {temas.map((tema) => (
+                                            <MenuItem key={tema.id_tema} value={tema.id_tema}>
+                                                {tema.nombre}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                    <TextField
+                                        name="contenido"
+                                        label="Contenido"
+                                        value={newPublicacion.contenido}
+                                        onChange={handleChangePublicacion}
+                                        multiline
+                                        rows={8} 
+                                        fullWidth
+                                        required
+                                        sx={{ width: '100%', maxWidth: '600px' }}
+                                    />
+                                </div>
                                 {modalType !== 'Material' && (
                                     <>
-                                        <DatePicker
-                                                selected={newPublicacion.fecha_lim ? new Date(newPublicacion.fecha_lim) : null}
-                                                onChange={date => {
-                                                    setNewPublicacion(prevState => ({
-                                                        ...prevState,
-                                                        fecha_lim: date ? date.toISOString() : null // Convertir la fecha a formato ISO8601 si es válida
-                                                    }));
-                                                }}
-                                                showTimeSelect
-                                                timeFormat="HH:mm"
-                                                timeIntervals={15}
-                                                dateFormat="yyyy-MM-dd HH:mm"
-                                                timeCaption="Hora"
-                                                placeholderText="Selecciona fecha y hora"
-                                            />
+                                    <div className="modal-column">
                                         <TextField
                                             name="puntos_max"
                                             label="Puntos Máximos"
@@ -352,13 +367,28 @@ export default function CursoDetalleProf() {
                                             fullWidth
                                             required
                                         />
-                                    </>
+                                       <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="es">
+                                        <DateTimePicker
+                                                label="Fecha y Hora Límite"
+                                                value={newPublicacion.fecha_lim ? moment(newPublicacion.fecha_lim) : null}
+                                                onChange={(date) => setNewPublicacion(prevState => ({
+                                                    ...prevState,
+                                                    fecha_lim: date ? date.toISOString() : ''
+                                                }))}
+                                                renderInput={(params) => <TextField {...params} fullWidth />}
+                                            />
+                                        </LocalizationProvider>
+                                    </div>
+                                    </>                                    
                                 )}
                             </>
                         )}
-                        <Button type="submit" variant="contained" color="primary">
-                            Agregar
-                        </Button>
+                        </div>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end'}}>
+                            <Button type="submit" variant="contained" color="primary" sx={{ mt: 6, mr: -1.5 }}>
+                                Agregar
+                            </Button>
+                        </Box>
                     </form>
                 </Box>
             </Modal>

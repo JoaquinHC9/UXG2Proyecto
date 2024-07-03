@@ -6,10 +6,5 @@ export const SidebarDataProf = [
     title: 'Perfil',
     icon: <AccountCircleIcon />,
     link: '/PerfilP',
-  },
-  {
-    title: 'Tareas',
-    icon: <LibraryBooksIcon />,
-    link: '/Tareas',
   }
 ];
