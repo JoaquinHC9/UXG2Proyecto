@@ -15,28 +15,51 @@ export default function AgregarEstudiante() {
         setNewStudent(prevState => ({ ...prevState, [name]: value }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {                     
         try {
-            await axios.post(`${API_URL}/cursos/agregarEstudiante/${id_curso}`, newStudent);
+            const response = await axios.post(`${API_URL}/cursos/agregarEstudiante/${id_curso}`, newStudent);
             Swal.fire({
                 title: 'Estudiante agregado!',
                 text: 'El estudiante ha sido agregado correctamente.',
                 icon: 'success',
                 confirmButtonText: 'OK'
             }).then(() => {
-                navigate(`/CursoP/${id_curso}`);
+                setNewStudent({ email: '' });
             });
+            console.log(response); // Aquí imprimes la respuesta exitosa
         } catch (error) {
-            Swal.fire({
-                title: 'Error',
-                text: 'Hubo un problema al agregar el estudiante.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        }
+            if (error.response) {
+                // La solicitud fue hecha y el servidor respondió con un estado de error                
+                console.log(error.response)
+                Swal.fire({
+                    title: 'Error '+ error.response.status,
+                    text: error.response.data.error,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            } else if (error.request) {
+                // La solicitud fue hecha pero no se recibió ninguna respuesta
+                console.log(error.request); 
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se recibió respuesta del servidor.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            } else {
+                // Ocurrió un error al configurar la solicitud
+                console.log('Error', error.message); 
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Hubo un problema al enviar la solicitud.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+            console.log(error.config); // Aquí imprimes la configuración de Axios
+        }        
     };
-
+    
     const handleBackToCourse = () => {
         navigate(`/CursoP/${id_curso}`);
     };
@@ -45,22 +68,25 @@ export default function AgregarEstudiante() {
         <main>
             <Box>
                 <h2>Agregar Estudiante</h2>
-                <form onSubmit={handleSubmit}>
-                    <TextField
-                        name="email"
-                        label="Email"
-                        value={newStudent.email}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                    />
-                    <Button type="submit" variant="contained" color="primary">
+                <TextField
+                    name="email"
+                    label="Email"
+                    value={newStudent.email}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                    sx={{width: '20vw'}}                    
+                />
+                <div>
+                    <Button type="button" variant="contained" color="primary" onClick={handleSubmit}>
                         Agregar
                     </Button>
-                </form>
-                <Button variant="contained" color="secondary" onClick={handleBackToCourse}>
-                    Volver al Curso
-                </Button>
+                </div>
+                <div>
+                    <Button variant="contained" color="secondary" onClick={handleBackToCourse}>
+                        Volver al Curso
+                    </Button>
+                </div>
             </Box>
         </main>
     );
